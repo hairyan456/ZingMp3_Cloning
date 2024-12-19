@@ -16,6 +16,14 @@ export default {
       fontFamily: {
         sora: ["Sora", 'sans-serif'],
       },
+      colors: {
+        '0F': '#0F7070',
+        '32': '#32323D',
+      },
+      backgroundColor: {
+        'CE': '#CED9D9',
+        'DD': '#DDE4E4',
+      },
       boxShadow: {
         md: "6px 6px 16px 0 rgba(0, 0, 0, 0.25),-4px -4px 12px 0 rgba(255, 255, 255, 0.3);",
       },

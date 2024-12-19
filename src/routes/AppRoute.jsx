@@ -6,7 +6,6 @@ import { path } from '../utils/constant';
 const PublicPage = lazy(() => import('../pages/public/PublicPage'));
 const HomePage = lazy(() => import('../pages/public/HomePage'));
 const LoginPage = lazy(() => import('../pages/public/LoginPage'));
-const NotFoundPage = lazy(() => import('../pages/public/NotFoundPage'));
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -35,17 +34,17 @@ const LoadingContainer = styled.div`
 `;
 
 const AppRoute = () => {
-    return (
-        <Suspense fallback={<LoadingContainer><div className='spinner' /></LoadingContainer>}>
-            <Routes>
-                <Route path={path.HOME} element={<PublicPage />}>
-                    <Route index element={<HomePage />} />
-                </Route>
-                <Route path={path.LOGIN} element={<LoginPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={<LoadingContainer><div className='spinner' /></LoadingContainer>}>
+      <Routes>
+        <Route path={path.HOME} element={<PublicPage />}>
+          <Route index element={<HomePage />} />
+          <Route path="*" element={<>404: Not found page</>} />
+        </Route>
+        <Route path={path.LOGIN} element={<LoginPage />} />
+      </Routes>
+    </Suspense>
+  );
 };
 
 export default AppRoute;
