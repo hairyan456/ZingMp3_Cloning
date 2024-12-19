@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
+import AppRoute from '../routes/AppRoute';
 
 function App() {
 
@@ -10,6 +11,7 @@ function App() {
 
   return (
     <>
+      <AppRoute />
 
       <ToastContainer position="top-right"
         autoClose={1800}
