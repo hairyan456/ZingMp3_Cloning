@@ -7,7 +7,7 @@ const SidebarLeft = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='w-40 md:w-[240px] flex-none bg-DD flex flex-col'>
+        <div className='w-36 md:w-[240px] flex-none bg-DD flex flex-col'>
             <div className='w-full h-[70px] flex items-center justify-start pl-5 '>
                 <img src={logoMP3} alt="mp3_logo"
                     className='w-24 md:w-32 h-10 object-contain cursor-pointer'

@@ -9,6 +9,8 @@ import { PersistGate } from 'redux-persist/integration/react' // đảm bảo ư
 // Redux thành công (nếu chưa có data thì k chạy).
 
 import 'react-toastify/dist/ReactToastify.css';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from '../../components/Header/Header';
-import Slider from '../../components/Slider/Slider';
+import SliderComponent from '../../components/Slider/SliderComponent';
 
 const HomePage = () => {
 
@@ -9,9 +9,9 @@ const HomePage = () => {
     }, []);
 
     return (
-        <div className='overflow-y-auto'>
+        <div className='w-full overflow-y-auto'>
             <Header />
-            <Slider />
+            <SliderComponent />
         </div>
     );
 };
