@@ -6,7 +6,7 @@ const { IoIosArrowRoundBack, IoIosArrowRoundForward } = icons;
 
 const Header = () => {
     return (
-        <div className='h-[70px] px-10 md:px-[59px] flex items-center lg:gap-5'>
+        <div className='h-[70px] px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md '>
             <div className='basis-4/6 flex gap-5 items-center'>
                 <div className='hidden md:flex text-gray-500 gap-3 basis'>
                     <span className='cursor-pointer'> <IoIosArrowRoundBack size={25} /> </span>
@@ -16,8 +16,12 @@ const Header = () => {
                     <InputSearch />
                 </div>
             </div>
-            <div className='basis-2/6 flex justify-end'>
-                Login
+            <div className='basis-2/6 flex justify-end '>
+                <button className='w-fit px-2 py-1 ml-[15px] font-medium xs:ml-0 xs:px-4 xs:py-2 cursor-pointer  
+                border border-gray-400 outline-none rounded-xl text-gray-600
+                hover:bg-gray-200 hover:transition-all hover:ease-in-out hover:duration-300'>
+                    Login
+                </button>
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 
 const SidebarRight = () => {
     return (
-        <div className='w-[330px] hidden xl:block border border-red-300 '>
+        <div className='w-[330px] animate-slideLeft hidden xl:block border border-l-gray-400 '>
 
         </div>
     );

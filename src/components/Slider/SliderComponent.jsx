@@ -19,7 +19,7 @@ const SliderComponent = () => {
         return null;
 
     return (
-        <div className='hidden xs:block xs:w-[320px] mx-auto sm:w-[450px] md:w-[520px] lg:w-[750px] xl:w-[970px] xl:px-5 py-5'>
+        <div className='hidden xs:block xs:w-[320px] mx-auto sm:w-[450px] md:w-[520px]  lg:w-[750px] xl:w-[900px] xl:px-5 py-5'>
             <Slider {...settings} >
                 {banner.map(item => (
                     <img key={item?.encodeId} src={item?.banner ?? ''} alt=""

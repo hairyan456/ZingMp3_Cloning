@@ -19,7 +19,7 @@ const SidebarLeft = () => {
                         key={item?.path}
                         to={item?.path}
                         className={({ isActive }) => `ct-sidebar-left 
-                            ${isActive ? 'text-0F transition-colors ease-in-out duration-400' : 'text-32'}`
+                            ${isActive ? 'text-0F bg-E7 transition-colors ease-in-out duration-400' : 'text-32'}`
                         }
                     >
                         {item?.icon}
