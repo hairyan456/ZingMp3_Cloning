@@ -1,30 +1,17 @@
 import React, { useEffect } from 'react';
 import Header from '../../components/Header/Header';
-import { getHome } from '../../services/homeService';
-import { toast } from 'react-toastify';
+import Slider from '../../components/Slider/Slider';
 
 const HomePage = () => {
-    const fetchHome = async () => {
-        try {
-            const res = await getHome();
-            if (res?.err === 0) {
-                console.log(res);
-            }
-            else
-                toast.error(res?.msg);
-        } catch (error) {
-            console.log('Error:', error);
-            toast.error(error?.message);
-        }
-    };
 
     useEffect(() => {
-        fetchHome();
+        document.title = 'Zing Mp3 - Trang chủ'
     }, []);
 
     return (
         <div className='overflow-y-auto'>
             <Header />
+            <Slider />
         </div>
     );
 };
