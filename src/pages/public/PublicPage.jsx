@@ -16,12 +16,13 @@ const PublicPage = () => {
     }, [])
 
     return (
-        <div className='w-full min-h-screen flex flex-col bg-CE overflow-hidden relative'>
+        <div className='w-full min-h-screen flex flex-col bg-CE relative'>
             <div className='w-full h-full flex flex-auto'>
                 <SidebarLeft />
                 <div className='flex-auto'>
                     <Header />
                     <Outlet />
+
                 </div>
                 <SidebarRight />
             </div>

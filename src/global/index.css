@@ -5,6 +5,7 @@
 @layer base {
     html {
         @apply font-sora;
+        overflow: hidden;
     }
 
     div {
@@ -17,7 +18,7 @@
         @apply py-2 px-6 font-semibold flex items-center gap-3 text-[10px] md:text-xs;
     }
 
-    .ct-icon-music-player{
-        @apply cursor-pointer hover:text-0F hover:transition-colors hover:ease-in-out hover:duration-500; 
-    } 
+    .ct-icon-music-player {
+        @apply cursor-pointer hover:text-0F hover:transition-colors hover:ease-in-out hover:duration-500;
+    }
 }
