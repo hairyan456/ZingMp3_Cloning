@@ -3,18 +3,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getDetailSong, getSong } from '../../services/musicService';
 import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
-import { setPlayingSongRedux } from '../../redux/action/musicAction';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
     FaRegPlayCircle, FaRegPauseCircle } = icons;
 
 const Player = () => {
-    const { currentSongId, isPlaying } = useSelector(state => state.music);
+    const { currentSongId } = useSelector(state => state.music);
     const dispatch = useDispatch();
 
     const [infoSong, setInfoSong] = useState({});
     const [sourceSong, setSourceSong] = useState('');
     const [isLike, setIsLike] = useState(false);
+    const [isPlaying, setIsPlaying] = useState(false);
     const audio = new Audio(sourceSong);
 
     const fetchSong = async () => {
@@ -40,18 +40,15 @@ const Player = () => {
     }
 
     useEffect(() => {
-        fetchDetailSong();
-        fetchSong();
-
+        if (currentSongId) {
+            fetchDetailSong();
+            fetchSong();
+        }
     }, [currentSongId]);
-
-    const handleTogglePlaying = () => {
-        dispatch(setPlayingSongRedux(!isPlaying));
-    }
 
     if (!currentSongId) return null;
     return (
-        <div className='w-full h-[90px] flex-none flex bg-C0 px-5 animate-slideUp'>
+        <div className='w-full h-[90px] flex-none flex bg-C0 px-5 animate-slideUp fixed bottom-0'>
             <div className='basis-1/4 flex items-center gap-6 border border-r-gray-200'>
                 <img src={infoSong?.thumbnail} alt="thumbnail" className='w-14 h-14 object-cover rounded-md' />
                 <div className='flex flex-col text-xs gap-2'>
@@ -69,7 +66,7 @@ const Player = () => {
                 <div className='flex  items-center gap-6'>
                     <span title='Bật phát ngẫu nhiên' className='ct-icon-music-player'> <CiShuffle size={24} /></span>
                     <span className='ct-icon-music-player'><MdOutlineSkipPrevious size={25} /></span>
-                    <span className='ct-icon-music-player' onClick={handleTogglePlaying}>
+                    <span className='ct-icon-music-player' onClick={() => setIsPlaying(p => !p)}>
                         {!isPlaying ? <FaRegPlayCircle size={28} /> : <FaRegPauseCircle size={28} />}
                     </span>
                     <span className='ct-icon-music-player'><MdOutlineSkipNext size={25} /></span>

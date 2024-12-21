@@ -3,7 +3,6 @@ import { toast } from 'react-toastify'
 
 const initState = {
     currentSongId: '',
-    isPlaying: false,
 };
 
 const musicReducer = (state = initState, action) => {
@@ -12,10 +11,7 @@ const musicReducer = (state = initState, action) => {
             return {
                 ...state, currentSongId: action?.payload ?? '',
             };
-        case actionTypes.SET_PLAYING_SONG:
-            return {
-                ...state, isPlaying: action?.payload ?? false,
-            };
+
         default:
             return state;
     }

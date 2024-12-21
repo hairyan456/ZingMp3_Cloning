@@ -6,7 +6,7 @@ const { IoIosArrowRoundBack, IoIosArrowRoundForward } = icons;
 
 const Header = () => {
     return (
-        <div className='h-[70px] px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md '>
+        <div className='h-[70px] px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md mb-5'>
             <div className='basis-4/6 flex gap-5 items-center'>
                 <div className='hidden md:flex text-gray-500 gap-3 basis'>
                     <span className='cursor-pointer'> <IoIosArrowRoundBack size={25} /> </span>
