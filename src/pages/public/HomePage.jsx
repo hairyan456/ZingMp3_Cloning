@@ -18,7 +18,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className='w-full max-h-[calc(100vh-90px)] overflow-y-auto pb-24'>
+        <div className='w-full pb-5'>
             <SliderComponent />
 
             <div className='best-of-2024 px-6 md:px-[59px] mb-10'>

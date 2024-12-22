@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Player, SidebarLeft, SidebarRight } from '../../modules/Home';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actions from '../../redux/action';
 import Header from '../../components/Header/Header';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 // flex-none: chiếm cố định (0 0 auto)
 // flex-auto: (flex-grow + flex-shrink + flex-basis: 1 1 auto): có thể co dãn
-
 const PublicPage = () => {
     const dispatch = useDispatch();
 
@@ -21,8 +21,9 @@ const PublicPage = () => {
                 <SidebarLeft />
                 <div className='flex-auto'>
                     <Header />
-                    <Outlet />
-
+                    <PerfectScrollbar style={{ maxHeight: 'calc(100vh - 160px)' }}>
+                        <Outlet />
+                    </PerfectScrollbar>
                 </div>
                 <SidebarRight />
             </div>

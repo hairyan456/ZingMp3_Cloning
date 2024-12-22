@@ -11,6 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react' // đảm bảo ư
 import 'react-toastify/dist/ReactToastify.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
