@@ -9,7 +9,6 @@ const PLaylistPage = () => {
     const params = useParams();
     const [playList, setPlayList] = useState({});
 
-    console.log(playList)
     const fetchPlayList = async () => {
         try {
             const res = await getDetailPlaylist(params?.pid);

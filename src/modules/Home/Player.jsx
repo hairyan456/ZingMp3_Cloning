@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDetailSong, getSong } from '../../services/musicService';
 import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
+import moment from 'moment';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
     FaRegPlayCircle, FaRegPauseCircle } = icons;
 
+let intervalId = null;
 const Player = () => {
     const { currentSongId } = useSelector(state => state.music);
     const dispatch = useDispatch();
@@ -15,11 +17,15 @@ const Player = () => {
     const [sourceSong, setSourceSong] = useState('');
     const [isLike, setIsLike] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
-    const audio = new Audio(sourceSong);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [currentSeconds, setCurrentSeconds] = useState(0);
+
+    const audio = useRef(new Audio());
+    const thumbRef = useRef();
 
     const fetchSong = async () => {
         try {
-            const res = await getSong('Z7FAFOWF');
+            const res = await getSong(currentSongId);
             if (res?.err === 0)
                 setSourceSong(res?.data['128']);
         } catch (error) {
@@ -30,7 +36,7 @@ const Player = () => {
 
     const fetchDetailSong = async () => {
         try {
-            const res = await getDetailSong('Z7FAFOWF');
+            const res = await getDetailSong(currentSongId);
             if (res?.err === 0)
                 setInfoSong(res?.data ?? {});
         } catch (error) {
@@ -43,8 +49,56 @@ const Player = () => {
         if (currentSongId) {
             fetchDetailSong();
             fetchSong();
+            setIsPlaying(true);
         }
     }, [currentSongId]);
+
+    // Xử lý phát nhạc
+    useEffect(() => {
+        if (sourceSong) {
+            if (isFirstLoad) {
+                setIsFirstLoad(false);
+                setIsPlaying(false);
+                return;
+            }
+
+            if (audio.current.src !== sourceSong) {
+                // Nếu source khác với source hiện tại, thì cập nhật và tải lại audio
+                audio.current.src = sourceSong;
+                audio.current.load();
+            }
+
+            if (isPlaying) {
+                audio.current.play().catch(err => console.error('Audio play error:', err));
+            } else {
+                audio.current.pause();
+            }
+        }
+
+        // Cleanup khi unmount component
+        return () => {
+            audio.current.pause();
+        };
+    }, [sourceSong, isPlaying, isFirstLoad]);
+
+
+    // Xử lý progress bar khi phát nhạc
+    useEffect(() => {
+        if (isPlaying) {
+            intervalId = setInterval(() => {
+                let percent = Math.round(audio.current.currentTime * 10000 / infoSong?.duration) / 100;
+                thumbRef.current.style.cssText = `right:${100 - percent}%`;
+                setCurrentSeconds(Math.round(audio.current.currentTime));
+            }, 200);
+        }
+        else
+            intervalId && clearInterval(intervalId);
+
+        return () => {
+            // Cleanup: clear interval when effect is unmounted or dependencies change
+            intervalId && clearInterval(intervalId);
+        };
+    }, [isPlaying]);
 
     if (!currentSongId) return null;
     return (
@@ -63,7 +117,7 @@ const Player = () => {
                 </div>
             </div>
             <div className='basis-2/4 flex flex-col items-center justify-center gap-4'>
-                <div className='flex  items-center gap-6'>
+                <div className='flex items-center gap-6'>
                     <span title='Bật phát ngẫu nhiên' className='ct-icon-music-player'> <CiShuffle size={24} /></span>
                     <span className='ct-icon-music-player'><MdOutlineSkipPrevious size={25} /></span>
                     <span className='ct-icon-music-player' onClick={() => setIsPlaying(p => !p)}>
@@ -72,8 +126,15 @@ const Player = () => {
                     <span className='ct-icon-music-player'><MdOutlineSkipNext size={25} /></span>
                     <span title='Bật phát lại tất cả' className='ct-icon-music-player'><CiRepeat size={24} /></span>
                 </div>
-                <div>
-                    Progress bar
+
+                <div className='w-[80%] flex items-center justify-center gap-5'>
+                    <span className='start-time text-xs'>{moment.utc(currentSeconds * 1000).format("mm:ss")}</span>
+                    <div className='w-full h-[3px] rounded-full relative bg-[rgba(0,0,0,0.1)]'>
+                        <div ref={thumbRef} className='absolute rounded-full top-0 left-0 h-[3px] bg-[#0e8080]' />
+                    </div>
+                    <span className='end-time text-xs'>
+                        {infoSong?.duration && moment.utc(infoSong?.duration * 1000).format("mm:ss")}
+                    </span>
                 </div>
             </div>
             <div className='basis-1/4 border border-l-gray-200'>c</div>
