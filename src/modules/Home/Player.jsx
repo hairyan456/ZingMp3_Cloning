@@ -22,12 +22,17 @@ const Player = () => {
 
     const audio = useRef(new Audio());
     const thumbRef = useRef();
+    const trackRef = useRef();
 
     const fetchSong = async () => {
         try {
             const res = await getSong(currentSongId);
             if (res?.err === 0)
                 setSourceSong(res?.data['128']);
+            else {
+                setSourceSong('');
+                toast.warn(res?.msg);
+            }
         } catch (error) {
             console.log(error);
             toast.error(error?.message);
@@ -49,23 +54,23 @@ const Player = () => {
         if (currentSongId) {
             fetchDetailSong();
             fetchSong();
-            setIsPlaying(true);
         }
     }, [currentSongId]);
 
-    // Xử lý phát nhạc
     useEffect(() => {
         if (sourceSong) {
             if (isFirstLoad) {
                 setIsFirstLoad(false);
                 setIsPlaying(false);
+                audio.current.src = sourceSong;
+                audio.current.load();
                 return;
             }
 
-            if (audio.current.src !== sourceSong) {
-                // Nếu source khác với source hiện tại, thì cập nhật và tải lại audio
+            if (audio.current.src !== sourceSong) { // Nếu chuyển bài hát
                 audio.current.src = sourceSong;
                 audio.current.load();
+                setIsPlaying(true);
             }
 
             if (isPlaying) {
@@ -73,6 +78,11 @@ const Player = () => {
             } else {
                 audio.current.pause();
             }
+        } else {
+            // Xử lý khi không có source
+            setIsPlaying(false);
+            setCurrentSeconds(0)
+            thumbRef.current.style.cssText = `right:100%`;
         }
 
         // Cleanup khi unmount component
@@ -81,14 +91,13 @@ const Player = () => {
         };
     }, [sourceSong, isPlaying, isFirstLoad]);
 
-
     // Xử lý progress bar khi phát nhạc
     useEffect(() => {
         if (isPlaying) {
             intervalId = setInterval(() => {
-                let percent = Math.round(audio.current.currentTime * 10000 / infoSong?.duration) / 100;
+                let percent = Math.round(audio?.current?.currentTime * 10000 / infoSong?.duration) / 100;
                 thumbRef.current.style.cssText = `right:${100 - percent}%`;
-                setCurrentSeconds(Math.round(audio.current.currentTime));
+                setCurrentSeconds(Math.round(audio?.current?.currentTime));
             }, 200);
         }
         else
@@ -99,6 +108,14 @@ const Player = () => {
             intervalId && clearInterval(intervalId);
         };
     }, [isPlaying]);
+
+    const handleClickProgressBar = (e) => {
+        const trackRect = trackRef.current.getBoundingClientRect();
+        const percent = Math.round((e.clientX - trackRect.left) * 10000 / trackRect.width) / 100;
+        thumbRef.current.style.cssText = `right:${100 - percent}%`;
+        audio.current.currentTime = percent * infoSong?.duration / 100;
+        setCurrentSeconds(Math.round(audio?.current?.currentTime));
+    }
 
     if (!currentSongId) return null;
     return (
@@ -129,8 +146,11 @@ const Player = () => {
 
                 <div className='w-[80%] flex items-center justify-center gap-5'>
                     <span className='start-time text-xs'>{moment.utc(currentSeconds * 1000).format("mm:ss")}</span>
-                    <div className='w-full h-[3px] rounded-full relative bg-[rgba(0,0,0,0.1)]'>
-                        <div ref={thumbRef} className='absolute rounded-full top-0 left-0 h-[3px] bg-[#0e8080]' />
+                    <div ref={trackRef}
+                        className='w-full h-[3px] hover:h-[8px] cursor-pointer rounded-full relative bg-[rgba(0,0,0,0.1)]'
+                        onClick={handleClickProgressBar}
+                    >
+                        <div ref={thumbRef} className='absolute top-0 left-0 bottom-0 rounded-full bg-[#0e8080]' />
                     </div>
                     <span className='end-time text-xs'>
                         {infoSong?.duration && moment.utc(infoSong?.duration * 1000).format("mm:ss")}
