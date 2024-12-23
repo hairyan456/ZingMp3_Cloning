@@ -7,7 +7,7 @@ import moment from 'moment';
 import { setCurrentSongRedux } from '../../redux/action';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
-    FaRegPlayCircle, FaRegPauseCircle } = icons;
+    FaRegPlayCircle, FaRegPauseCircle, LuRepeat1 } = icons;
 
 let intervalId = null;
 const Player = () => {
@@ -23,7 +23,7 @@ const Player = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [isShuffle, setIsShuffle] = useState(false); // lặp bài hát ngẫu nhiên
-    const [isRepeat, setIsRepeat] = useState(false);
+    const [isRepeat, setIsRepeat] = useState(0);
     const [currentSeconds, setCurrentSeconds] = useState(0);
 
     const audio = useRef(new Audio());
@@ -119,8 +119,9 @@ const Player = () => {
         const handleEnded = () => {
             if (isShuffle)
                 handleShuffle()
-            else if (isRepeat)
-                handleNextSong();
+            else if (isRepeat === 1 || isRepeat === 2) {
+                isRepeat === 1 ? handleNextSong() : audio.current.play();
+            }
             else
                 setIsPlaying(false);
         };
@@ -157,11 +158,11 @@ const Player = () => {
 
     const handleToggleShuffle = () => {
         setIsShuffle(p => !p);
-        setIsRepeat(false);
+        setIsRepeat(0);
     }
 
     const handleToggleRepeat = () => {
-        setIsRepeat(p => !p);
+        setIsRepeat(p => p === 2 ? 0 : p + 1);
         setIsShuffle(false);
     }
 
@@ -224,9 +225,9 @@ const Player = () => {
                         onClick={isShuffle ? handleShuffle : handleNextSong}>
                         <MdOutlineSkipNext size={25} />
                     </span>
-                    <span title='Bật phát lại tất cả' className={`${isRepeat ? 'text-0F cursor-pointer' : 'ct-icon-music-player'}`}
+                    <span title='Bật phát lại tất cả' className={`${isRepeat !== 0 ? 'text-0F cursor-pointer' : 'ct-icon-music-player'}`}
                         onClick={handleToggleRepeat}>
-                        <CiRepeat size={24} />
+                        {isRepeat !== 2 ? <CiRepeat size={24} /> : <LuRepeat1 size={24} />}
                     </span>
                 </div>
 
