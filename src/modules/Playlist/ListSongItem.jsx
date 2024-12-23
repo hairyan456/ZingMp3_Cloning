@@ -11,7 +11,7 @@ const ListSongItem = ({ songData = {} }) => {
     const dispatch = useDispatch();
 
     const playSong = (sId) => {
-        if(!sId) return ;
+        if (!sId) return;
         dispatch(actions.setCurrentSongRedux(sId));
     };
 

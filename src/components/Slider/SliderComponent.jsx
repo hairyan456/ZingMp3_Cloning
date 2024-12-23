@@ -14,7 +14,7 @@ const settings = {
 };
 
 const SliderComponent = () => {
-    const { banner } = useSelector(state => state.app);
+    const banner = useSelector(state => state.app.banner);
     if (banner.length <= 0)
         return null;
 

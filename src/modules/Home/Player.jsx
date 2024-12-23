@@ -4,13 +4,17 @@ import { getDetailSong, getSong } from '../../services/musicService';
 import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
 import moment from 'moment';
+import { setCurrentSongRedux } from '../../redux/action';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
     FaRegPlayCircle, FaRegPauseCircle } = icons;
 
 let intervalId = null;
 const Player = () => {
-    const { currentSongId } = useSelector(state => state.music);
+    // viết tách rời useSelector giúp component chỉ re-render khi 1 trong 2 state này thay đổi
+    const currentSongId = useSelector(state => state.music.currentSongId);
+    const playLists = useSelector(state => state.music.playLists);
+
     const dispatch = useDispatch();
 
     const [infoSong, setInfoSong] = useState({});
@@ -18,6 +22,8 @@ const Player = () => {
     const [isLike, setIsLike] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [isShuffle, setIsShuffle] = useState(false); // lặp bài hát ngẫu nhiên
+    const [isRepeat, setIsRepeat] = useState(false);
     const [currentSeconds, setCurrentSeconds] = useState(0);
 
     const audio = useRef(new Audio());
@@ -82,7 +88,8 @@ const Player = () => {
             // Xử lý khi không có source
             setIsPlaying(false);
             setCurrentSeconds(0)
-            thumbRef.current.style.cssText = `right:100%`;
+            if (thumbRef?.current)
+                thumbRef.current.style.cssText = `right: 100%`;
         }
 
         // Cleanup khi unmount component
@@ -104,17 +111,85 @@ const Player = () => {
             intervalId && clearInterval(intervalId);
 
         return () => {
-            // Cleanup: clear interval when effect is unmounted or dependencies change
             intervalId && clearInterval(intervalId);
         };
     }, [isPlaying]);
 
+    useEffect(() => {
+        const handleEnded = () => {
+            if (isShuffle)
+                handleShuffle()
+            else if (isRepeat)
+                handleNextSong();
+            else
+                setIsPlaying(false);
+        };
+
+        // Gắn addEventListener vào audio.current khi audio được load
+        if (audio.current) {
+            audio.current.addEventListener('ended', handleEnded);
+        }
+
+        // Cleanup khi component unmount hoặc audio thay đổi
+        return () => {
+            if (audio.current) {
+                audio.current.removeEventListener('ended', handleEnded);
+            }
+        };
+    }, [audio.current, isShuffle, isRepeat]); // Thêm vào dependencies để xử lý khi audio thay đổi
+
+
+    // hàm click vào thanh progress bar để chuyển thời lượng phát nhạc
     const handleClickProgressBar = (e) => {
-        const trackRect = trackRef.current.getBoundingClientRect();
-        const percent = Math.round((e.clientX - trackRect.left) * 10000 / trackRect.width) / 100;
-        thumbRef.current.style.cssText = `right:${100 - percent}%`;
-        audio.current.currentTime = percent * infoSong?.duration / 100;
-        setCurrentSeconds(Math.round(audio?.current?.currentTime));
+        try {
+            if (!trackRef.current || !infoSong?.duration) return;
+            const trackRect = trackRef.current.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let percent = ((clientX - trackRect.left) / trackRect.width) * 100;
+            percent = Math.min(100, Math.max(0, percent));
+            thumbRef.current.style.cssText = `right:${100 - percent}%`;
+            audio.current.currentTime = (percent / 100) * infoSong.duration;
+            setCurrentSeconds(Math.round(audio.current.currentTime));
+        } catch (error) {
+            console.error('Error in handleClickProgressBar:', error);
+        }
+    };
+
+    const handleToggleShuffle = () => {
+        setIsShuffle(p => !p);
+        setIsRepeat(false);
+    }
+
+    const handleToggleRepeat = () => {
+        setIsRepeat(p => !p);
+        setIsShuffle(false);
+    }
+
+    const handlePrevSong = () => {
+        if (playLists?.song?.items?.length > 0) {
+            const currentIndex = playLists.song.items.findIndex(item => item.encodeId === currentSongId);
+            if (currentIndex !== -1) {
+                const prevIndex = (currentIndex - 1 + playLists.song.items.length) % playLists.song.items.length;
+                dispatch(setCurrentSongRedux(playLists.song.items[prevIndex].encodeId));
+            }
+        }
+    };
+
+    const handleNextSong = () => {
+        if (playLists?.song?.items?.length > 0) {
+            const currentIndex = playLists.song.items.findIndex(item => item.encodeId === currentSongId);
+            if (currentIndex !== -1) {
+                const nextIndex = (currentIndex + 1) % playLists.song.items.length;
+                dispatch(setCurrentSongRedux(playLists.song.items[nextIndex].encodeId));
+            }
+        }
+    };
+
+    const handleShuffle = () => {
+        if (playLists?.song?.items?.length > 0) {
+            const randomIndex = Math.round(Math.random() * playLists.song.items.length) - 1;
+            dispatch(setCurrentSongRedux(playLists.song.items[randomIndex].encodeId));
+        }
     }
 
     if (!currentSongId) return null;
@@ -135,13 +210,24 @@ const Player = () => {
             </div>
             <div className='basis-2/4 flex flex-col items-center justify-center gap-4'>
                 <div className='flex items-center gap-6'>
-                    <span title='Bật phát ngẫu nhiên' className='ct-icon-music-player'> <CiShuffle size={24} /></span>
-                    <span className='ct-icon-music-player'><MdOutlineSkipPrevious size={25} /></span>
+                    <span title='Bật phát ngẫu nhiên' className={`${isShuffle ? 'text-0F cursor-pointer' : 'ct-icon-music-player'}`}
+                        onClick={handleToggleShuffle}>
+                        <CiShuffle size={24} />
+                    </span>
+                    <span className='ct-icon-music-player' onClick={isShuffle ? handleShuffle : handlePrevSong}>
+                        <MdOutlineSkipPrevious size={25} />
+                    </span>
                     <span className='ct-icon-music-player' onClick={() => setIsPlaying(p => !p)}>
                         {!isPlaying ? <FaRegPlayCircle size={28} /> : <FaRegPauseCircle size={28} />}
                     </span>
-                    <span className='ct-icon-music-player'><MdOutlineSkipNext size={25} /></span>
-                    <span title='Bật phát lại tất cả' className='ct-icon-music-player'><CiRepeat size={24} /></span>
+                    <span className={`${playLists?.song?.items?.length > 0 ? 'ct-icon-music-player' : 'opacity-20 cursor-not-allowed'}`}
+                        onClick={isShuffle ? handleShuffle : handleNextSong}>
+                        <MdOutlineSkipNext size={25} />
+                    </span>
+                    <span title='Bật phát lại tất cả' className={`${isRepeat ? 'text-0F cursor-pointer' : 'ct-icon-music-player'}`}
+                        onClick={handleToggleRepeat}>
+                        <CiRepeat size={24} />
+                    </span>
                 </div>
 
                 <div className='w-[80%] flex items-center justify-center gap-5'>

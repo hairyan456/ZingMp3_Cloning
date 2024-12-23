@@ -1,8 +1,10 @@
 import actionTypes from '../action/actionTypes';
-import { toast } from 'react-toastify'
 
 const initState = {
+    isLoading: false,
+    isError: false,
     currentSongId: '',
+    playLists: [],
 };
 
 const musicReducer = (state = initState, action) => {
@@ -11,6 +13,23 @@ const musicReducer = (state = initState, action) => {
             return {
                 ...state, currentSongId: action?.payload ?? '',
             };
+
+        case actionTypes.SET_PLAYLIST_START:
+            return {
+                ...state, isLoading: true, isError: false,
+            };
+        case actionTypes.SET_PLAYLIST_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                playLists: action?.payload ?? [],
+            };
+        case actionTypes.SET_PLAYLIST_FAILED:
+            toast.error(action?.payload);
+            return {
+                ...state, isLoading: false, isError: true, playLists: []
+            }
 
         default:
             return state;

@@ -1,8 +1,11 @@
 import React from 'react';
 import { ListSongItem } from './';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 
-const ListSongs = ({ data = {} }) => {
+const ListSongs = () => {
+    const playLists = useSelector(state => state?.music?.playLists);
+    const data = playLists?.song ?? {};
 
     const converTotalDuration = (totalDuration = 0) => {
         const hours = Math.floor(totalDuration / 3600); // Tính số giờ
