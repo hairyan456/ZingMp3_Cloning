@@ -4,23 +4,23 @@ import { getDetailSong, getSong } from '../../services/musicService';
 import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
 import moment from 'moment';
-import { setCurrentSongRedux } from '../../redux/action';
+import { setCurrentSongRedux, setIsPLayingRedux } from '../../redux/action';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
     FaRegPlayCircle, FaRegPauseCircle, LuRepeat1 } = icons;
 
 let intervalId = null;
 const Player = () => {
-    // viết tách rời useSelector giúp component chỉ re-render khi 1 trong 2 state này thay đổi
+    // viết tách rời useSelector giúp component chỉ re-render khi 1 trong các state này thay đổi
     const currentSongId = useSelector(state => state.music.currentSongId);
     const playLists = useSelector(state => state.music.playLists);
+    const isPlaying = useSelector(state => state.music.isPlaying);
 
     const dispatch = useDispatch();
 
     const [infoSong, setInfoSong] = useState({});
     const [sourceSong, setSourceSong] = useState('');
     const [isLike, setIsLike] = useState(false);
-    const [isPlaying, setIsPlaying] = useState(false);
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [isShuffle, setIsShuffle] = useState(false); // lặp bài hát ngẫu nhiên
     const [isRepeat, setIsRepeat] = useState(0);
@@ -67,7 +67,7 @@ const Player = () => {
         if (sourceSong) {
             if (isFirstLoad) {
                 setIsFirstLoad(false);
-                setIsPlaying(false);
+                dispatch(setIsPLayingRedux(false))
                 audio.current.src = sourceSong;
                 audio.current.load();
                 return;
@@ -76,7 +76,7 @@ const Player = () => {
             if (audio.current.src !== sourceSong) { // Nếu chuyển bài hát
                 audio.current.src = sourceSong;
                 audio.current.load();
-                setIsPlaying(true);
+                dispatch(setIsPLayingRedux(true))
             }
 
             if (isPlaying) {
@@ -86,7 +86,7 @@ const Player = () => {
             }
         } else {
             // Xử lý khi không có source
-            setIsPlaying(false);
+            dispatch(setIsPLayingRedux(false))
             setCurrentSeconds(0)
             if (thumbRef?.current)
                 thumbRef.current.style.cssText = `right: 100%`;
@@ -123,7 +123,7 @@ const Player = () => {
                 isRepeat === 1 ? handleNextSong() : audio.current.play();
             }
             else
-                setIsPlaying(false);
+                dispatch(setIsPLayingRedux(false))
         };
 
         // Gắn addEventListener vào audio.current khi audio được load
@@ -218,7 +218,7 @@ const Player = () => {
                     <span className='ct-icon-music-player' onClick={isShuffle ? handleShuffle : handlePrevSong}>
                         <MdOutlineSkipPrevious size={25} />
                     </span>
-                    <span className='ct-icon-music-player' onClick={() => setIsPlaying(p => !p)}>
+                    <span className='ct-icon-music-player' onClick={() => dispatch(setIsPLayingRedux(!isPlaying))}>
                         {!isPlaying ? <FaRegPlayCircle size={28} /> : <FaRegPauseCircle size={28} />}
                     </span>
                     <span className={`${playLists?.song?.items?.length > 0 ? 'ct-icon-music-player' : 'opacity-20 cursor-not-allowed'}`}

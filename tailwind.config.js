@@ -24,7 +24,8 @@ export default {
         'CE': '#CED9D9',
         'DD': '#DDE4E4',
         'E7': '#E7ECEC',
-        'C0': '#C0D8D8'
+        'C0': '#C0D8D8',
+        'overlay-30': 'rgba(0,0,0,0.3)',
       },
       boxShadow: {
         md: "6px 6px 16px 0 rgba(0, 0, 0, 0.25),-4px -4px 12px 0 rgba(255, 255, 255, 0.3);",
@@ -68,14 +69,38 @@ export default {
             '-webkit-transform': 'translateX(0)',
             transform: 'translateX(0)'
           }
-        }
+        },
+        rotateCenter: {
+          '0%': {
+            '-webkit-transform': 'rotate(0)',
+            transform: 'rotate(0)',
+            'border-radius': '99999px',
+          },
+          '100%': {
+            '-webkit-transform': 'rotate(360deg)',
+            transform: 'rotate(360deg)'
+          }
+        },
+        rotatePause: {
+          '0%': {
+            '-webkit-transform': 'rotate(360deg)',
+            transform: 'rotate(360deg)',
+            'border-radius': '99999px',
+          },
+          '100%': {
+            '-webkit-transform': 'rotate(0)',
+            transform: 'rotate(0)'
+          }
+        },
       },
       animation: {
         slideUp: 'slideUp 0.8s ease-in-out',
         slideDown: 'slideDown 0.8s ease-in-out',
         slideRight: 'slideRight 0.8s ease-in-out',
         slideLeft: 'slideLeft 0.8s ease-in-out',
-        fadeIn: 'fadeIn 0.5s ease-in-out '
+        fadeIn: 'fadeIn 0.5s ease-in-out ',
+        rotateCenter: 'rotateCenter 8s linear infinite',
+        rotatePause: 'rotatePause 0.3s linear 2 both',
       },
     },
     plugins: [],

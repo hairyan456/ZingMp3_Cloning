@@ -3,12 +3,18 @@ import actionTypes from '../action/actionTypes';
 const initState = {
     isLoading: false,
     isError: false,
+    isPlaying: false,
     currentSongId: '',
     playLists: [],
 };
 
 const musicReducer = (state = initState, action) => {
     switch (action.type) {
+        case actionTypes.SET_IS_PLAYING:
+            return {
+                ...state, isPlaying: action?.payload ?? false,
+            };
+
         case actionTypes.SET_CURRENT_SONG_ID:
             return {
                 ...state, currentSongId: action?.payload ?? '',
