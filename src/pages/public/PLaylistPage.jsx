@@ -15,9 +15,10 @@ const PLaylistPage = () => {
             dispatch(fetchDetailPlaylistRedux(params.pid));
     }, [params?.pid]);
 
+    //xl:max-w-[calc(100vw-240px-330px)]
     if (!params?.pid) return null;
     return (
-        <div className='w-full xl:max-w-[calc(100vw-240px-330px)]'>
+        <div className='w-full'>
             <div className='w-full flex flex-row px-12 pt-5 gap-5 mb-12'>
                 <div className='basis-2/6 flex flex-col text-center gap-3 px-4'>
                     <Thumbnail

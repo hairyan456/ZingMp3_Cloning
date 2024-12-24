@@ -5,12 +5,14 @@ import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
 import moment from 'moment';
 import { setCurrentSongRedux, setIsPLayingRedux } from '../../redux/action';
+import LoadingComponent from '../../components/Loading/LoadingComponent';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
-    FaRegPlayCircle, FaRegPauseCircle, LuRepeat1 } = icons;
+    FaRegPlayCircle, FaRegPauseCircle, LuRepeat1, RiPlayListFill, FaVolumeMute, FaVolumeUp,
+    IoMdVolumeHigh, FaVolumeDown } = icons;
 
 let intervalId = null;
-const Player = () => {
+const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
     // viết tách rời useSelector giúp component chỉ re-render khi 1 trong các state này thay đổi
     const currentSongId = useSelector(state => state.music.currentSongId);
     const playLists = useSelector(state => state.music.playLists);
@@ -24,7 +26,9 @@ const Player = () => {
     const [isFirstLoad, setIsFirstLoad] = useState(true);
     const [isShuffle, setIsShuffle] = useState(false); // lặp bài hát ngẫu nhiên
     const [isRepeat, setIsRepeat] = useState(0);
+    const [isLoadingSong, setIsLoadingSong] = useState(false);
     const [currentSeconds, setCurrentSeconds] = useState(0);
+    const [volume, setVolume] = useState(100);
 
     const audio = useRef(new Audio());
     const thumbRef = useRef();
@@ -46,6 +50,7 @@ const Player = () => {
     }
 
     const fetchDetailSong = async () => {
+        setIsLoadingSong(true);
         try {
             const res = await getDetailSong(currentSongId);
             if (res?.err === 0)
@@ -53,6 +58,9 @@ const Player = () => {
         } catch (error) {
             console.log(error);
             toast.error(error?.message);
+        }
+        finally {
+            setIsLoadingSong(false);
         }
     }
 
@@ -139,6 +147,9 @@ const Player = () => {
         };
     }, [audio.current, isShuffle, isRepeat]); // Thêm vào dependencies để xử lý khi audio thay đổi
 
+    useEffect(() => {
+        audio.current.volume = volume / 100;
+    }, [volume]);
 
     // hàm click vào thanh progress bar để chuyển thời lượng phát nhạc
     const handleClickProgressBar = (e) => {
@@ -191,12 +202,12 @@ const Player = () => {
             const randomIndex = Math.round(Math.random() * playLists.song.items.length) - 1;
             dispatch(setCurrentSongRedux(playLists.song.items[randomIndex].encodeId));
         }
-    }
+    };
 
     if (!currentSongId) return null;
     return (
         <div className='w-full h-[90px] flex-none flex bg-C0 px-5 animate-slideUp fixed bottom-0'>
-            <div className='basis-1/4 flex items-center gap-6 border border-r-gray-200'>
+            <div className='basis-1/4 flex items-center gap-6 '>
                 <img src={infoSong?.thumbnail} alt="thumbnail" className='w-14 h-14 object-cover rounded-md' />
                 <div className='flex flex-col text-xs gap-2'>
                     <span className='font-medium text-gray-700'>{infoSong?.title}</span>
@@ -219,7 +230,8 @@ const Player = () => {
                         <MdOutlineSkipPrevious size={25} />
                     </span>
                     <span className='ct-icon-music-player' onClick={() => dispatch(setIsPLayingRedux(!isPlaying))}>
-                        {!isPlaying ? <FaRegPlayCircle size={28} /> : <FaRegPauseCircle size={28} />}
+                        {isLoadingSong ? <LoadingComponent /> : !isPlaying ? <FaRegPlayCircle size={28} /> : <FaRegPauseCircle size={28} />
+                        }
                     </span>
                     <span className={`${playLists?.song?.items?.length > 0 ? 'ct-icon-music-player' : 'opacity-20 cursor-not-allowed'}`}
                         onClick={isShuffle ? handleShuffle : handleNextSong}>
@@ -244,9 +256,22 @@ const Player = () => {
                     </span>
                 </div>
             </div>
-            <div className='basis-1/4 border border-l-gray-200'>c</div>
+            <div className='basis-1/4 flex items-center justify-end gap-3'>
+                <div className='flex gap-2 items-center'>
+                    <span onClick={() => setVolume(p => +p === 0 ? 70 : 0)}>
+                        {+volume >= 70 ? <FaVolumeUp size={23} /> : +volume >= 40 ? <IoMdVolumeHigh size={23} /> :
+                            +volume > 0 ? <FaVolumeDown size={23} /> : <FaVolumeMute size={23} />}
+                    </span>
+                    <input type="range" step={1} min={0} max={100} value={volume}
+                        onChange={(e) => setVolume(+e.target.value)}
+                    />
+                </div>
+                <span title='Danh sách phát' className='ct-icon-music-player' onClick={() => setShowRightSidebar(p => !p)}>
+                    <RiPlayListFill size={25} />
+                </span>
+            </div>
         </div>
     );
 };
 
-export default Player;
+export default React.memo(Player);

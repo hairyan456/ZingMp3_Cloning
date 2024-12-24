@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Player, SidebarLeft, SidebarRight } from '../../modules/Home';
 import Header from '../../components/Header/Header';
@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 // flex-auto: (flex-grow + flex-shrink + flex-basis: 1 1 auto): có thể co dãn
 const PublicPage = () => {
     const { currentSongId } = useSelector(state => state.music);
-
+    const [isShowSidebarRight, setIsShowSidebarRight] = useState(true);
     return (
         <div className='w-full min-h-screen flex flex-col bg-CE relative'>
             <div className='w-full h-full flex flex-auto'>
@@ -22,9 +22,9 @@ const PublicPage = () => {
                         <Outlet />
                     </PerfectScrollbar>
                 </div>
-                <SidebarRight />
+                {isShowSidebarRight && <SidebarRight />}
             </div>
-            <Player />
+            <Player setShowRightSidebar={setIsShowSidebarRight} />
         </div>
     );
 };
