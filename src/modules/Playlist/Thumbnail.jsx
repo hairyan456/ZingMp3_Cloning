@@ -12,7 +12,7 @@ const Thumbnail = ({ thumbnail = '', title = '', contentLastUpdate = '', artists
 
     return (
         <>
-            <div className='w-full relative overflow-hidden cursor-pointer' onClick={() => dispatch(setIsPLayingRedux(!isPlaying))}>
+            <div className='w-full max-w-[250px] relative overflow-hidden cursor-pointer' onClick={() => dispatch(setIsPLayingRedux(!isPlaying))}>
                 <div style={{ backgroundImage: `url(${thumbnail})` }}
                     className={`h-[250px] bg-cover bg-no-repeat bg-center ${isPlaying ? 'animate-rotateCenter' : 'animate-none'}`}
                 />

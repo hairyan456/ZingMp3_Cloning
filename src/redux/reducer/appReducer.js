@@ -7,6 +7,11 @@ const initState = {
     banner: [],
     bestOf2024: [],
     hotSongs: [],
+    chill: [],
+    top100: [],
+    banner2: [],
+    albumHot: [],
+
 };
 
 const appReducer = (state = initState, action) => {
@@ -23,6 +28,12 @@ const appReducer = (state = initState, action) => {
                 banner: action?.payload?.find(item => item?.sectionType === 'banner')?.items ?? [],
                 bestOf2024: action?.payload?.find(item => item?.title === 'Best of 2024')?.items ?? [],
                 hotSongs: action?.payload[2]?.items ?? [],
+                chill: action?.payload?.find(item => item?.title === 'Chill')?.items ?? [],
+                top100: action?.payload?.find(item => item?.title === 'Top 100')?.items ?? [],
+                banner2: action?.payload?.find(item => item?.sectionType === 'weekChart')?.items ?? [],
+                albumHot: action?.payload
+                    ?.find(item => item?.title === 'Album Hot')
+                    ?.items?.slice(0, 4) ?? [],
 
             };
         case actionTypes.GET_HOME_FAILED:
