@@ -11,6 +11,7 @@ const SectionComponent = ({ className = '', title = '', dataItems = [] }) => {
             navigate(`/playlist/${match[1]}`);
     }
 
+    if (dataItems?.length <= 0) return null;
     return (
         <div className={`${className} `}>
             <h3 className='font-semibold text-xl mb-5'>{title}</h3>

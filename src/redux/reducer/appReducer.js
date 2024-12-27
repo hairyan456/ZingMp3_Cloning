@@ -11,6 +11,7 @@ const initState = {
     top100: [],
     banner2: [],
     albumHot: [],
+    newRelease: {},
 
 };
 
@@ -34,6 +35,7 @@ const appReducer = (state = initState, action) => {
                 albumHot: action?.payload
                     ?.find(item => item?.title === 'Album Hot')
                     ?.items?.slice(0, 4) ?? [],
+                newRelease: action?.payload?.find(item => item?.sectionType === 'new-release')?.items ?? {},
 
             };
         case actionTypes.GET_HOME_FAILED:
