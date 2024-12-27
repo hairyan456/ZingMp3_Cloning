@@ -13,14 +13,14 @@ const NewRelease = ({ className = '', }) => {
 
     return (
         <div className={`${className} flex flex-col gap-5`}>
-            <h3 className='font-semibold text-xl'>Mới phát hành</h3>
+            <h3 className='font-semibold text-sm xs:text-base sm:text-lg lg:text-xl'>Mới phát hành</h3>
             <div className='flex items-center gap-5 text-xs'>
                 <ButtonComponent text={'Việt Nam'} className={`${isVietNamSong && 'bg-[#0F7070] text-white'} transition-all outline-none`}
                     onClick={() => setIsActive(p => !p)} />
                 <ButtonComponent text={'Quốc tế'} className={`${!isVietNamSong && 'bg-[#0F7070] text-white'} transition-all outline-none`}
                     onClick={() => setIsActive(p => !p)} />
             </div>
-            <div className='w-full grid grid-cols-2 lg:grid-cols-3 gap-1'>
+            <div className='w-full grid grid-cols-1 xs:grid-cols-2 xs:gap-x-5 lg:grid-cols-3 lg:gap-3 xl:gap-0'>
                 {songs?.length > 0 && songs?.map(item => (
                     <SongItem key={item?.encodeId} data={item} />
                 ))}

@@ -7,6 +7,7 @@ const PublicPage = lazy(() => import('../pages/public/PublicPage'));
 const HomePage = lazy(() => import('../pages/public/HomePage'));
 const LoginPage = lazy(() => import('../pages/public/LoginPage'));
 const PlaylistPage = lazy(() => import('../pages/public/PLaylistPage'));
+const WeekRankPage = lazy(() => import('../pages/public/WeekRankPage'));
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ const AppRoute = () => {
         <Route path={path.HOME} element={<PublicPage />}>
           <Route index element={<HomePage />} />
           <Route path={path.PLAYLIST__TITLE__PID} element={<PlaylistPage />} />
+          <Route path={path.WEEKRANK__TITLE__PID} element={<WeekRankPage />} />
           <Route path="*" element={<>404: Not found page</>} />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />

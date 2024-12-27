@@ -3,8 +3,11 @@ import SliderComponent from '../../components/Slider/SliderComponent';
 import { useSelector } from 'react-redux';
 import SectionComponent from '../../components/Section/SectionComponent';
 import NewRelease from '../../modules/Home/NewRelease';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
+    const navigate = useNavigate();
+
     const bestOf2024 = useSelector(state => state.app.bestOf2024);
     const hotSongs = useSelector(state => state.app.hotSongs);
     const chill = useSelector(state => state.app.chill);
@@ -16,6 +19,7 @@ const HomePage = () => {
         document.title = 'Zing Mp3 - Trang chủ'
     }, []);
 
+
     return (
         <div className='w-full pb-5'>
             <SliderComponent />
@@ -25,12 +29,13 @@ const HomePage = () => {
                 {banner2?.length > 0 && banner2.map((item, index) => (
                     <div key={index} className='h-[150px] bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-90'
                         style={{ backgroundImage: `url(${item?.banner})` }}
+                        onClick={() => navigate(item?.link?.replace('.html', ''))}
                     />
                 ))}
             </div>
             <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Nhạc chill'} dataItems={chill} />
             <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Top 100'} dataItems={top100} />
-            <NewRelease className={'new-release px-6 md:px-[59px] mb-10'}/>
+            <NewRelease className={'new-release px-6 md:px-[59px] mb-10'} />
             <SectionComponent className='hot-songs px-6 md:px-[59px]' title={'Album Hot'} dataItems={albumHot} />
 
         </div>
