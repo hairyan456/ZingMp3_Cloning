@@ -28,7 +28,7 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
     const [isRepeat, setIsRepeat] = useState(0);
     const [isLoadingSong, setIsLoadingSong] = useState(false);
     const [currentSeconds, setCurrentSeconds] = useState(0);
-    const [volume, setVolume] = useState(100);
+    const [volume, setVolume] = useState(50);
 
     const audio = useRef(new Audio());
     const thumbRef = useRef();

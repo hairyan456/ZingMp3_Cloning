@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'lodash';
 import icons from '../../utils/icons';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../redux/action'
+import { useLocation } from 'react-router-dom';
 
 const { CiMusicNote1 } = icons;
 

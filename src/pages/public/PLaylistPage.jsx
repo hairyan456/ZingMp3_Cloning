@@ -1,19 +1,29 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import _ from 'lodash';
+import { useLocation, useParams } from 'react-router-dom';
 import { Thumbnail, ListSongs } from '../../modules/Playlist';
 import { SlUserFollow } from "react-icons/sl";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailPlaylistRedux } from '../../redux/action';
+import * as actions from '../../redux/action'
 
 const PLaylistPage = () => {
     const dispatch = useDispatch();
     const params = useParams();
+    const location = useLocation();
     const playLists = useSelector(state => state?.music?.playLists);
 
     useEffect(() => {
         if (params?.pid)
             dispatch(fetchDetailPlaylistRedux(params.pid));
     }, [params?.pid]);
+
+    useEffect(() => {
+        if (location?.state?.playAlbum && !_.isEmpty(playLists?.song)) {
+            const randomIndex = Math.floor(Math.random() * +playLists.song?.total);
+            dispatch(actions.setCurrentSongRedux(playLists.song?.items[randomIndex]?.encodeId));
+        }
+    }, [playLists]);
 
     //xl:max-w-[calc(100vw-240px-330px)]
     if (!params?.pid) return null;
