@@ -12,7 +12,8 @@ const initState = {
     banner2: [],
     albumHot: [],
     newRelease: {},
-
+    chart: {},
+    rank: [],
 };
 
 const appReducer = (state = initState, action) => {
@@ -36,7 +37,8 @@ const appReducer = (state = initState, action) => {
                     ?.find(item => item?.title === 'Album Hot')
                     ?.items?.slice(0, 4) ?? [],
                 newRelease: action?.payload?.find(item => item?.sectionType === 'new-release')?.items ?? {},
-
+                chart: action?.payload?.find(item => item?.sectionId === 'hZC')?.chart ?? {},
+                rank: action?.payload?.find(item => item?.sectionId === 'hZC')?.items ?? {},
             };
         case actionTypes.GET_HOME_FAILED:
             toast.error(action?.payload);

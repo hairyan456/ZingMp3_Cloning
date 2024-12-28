@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import SectionComponent from '../../components/Section/SectionComponent';
 import NewRelease from '../../modules/Home/NewRelease';
 import { useNavigate } from 'react-router-dom';
+import ChartComponent from '../../components/Chart/ChartComponent';
 
 const HomePage = () => {
     const navigate = useNavigate();
@@ -25,6 +26,7 @@ const HomePage = () => {
             <SliderComponent />
             <SectionComponent className='best-of-2024 px-6 md:px-[59px] mb-10' title={'Best of 2024'} dataItems={bestOf2024} />
             <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Nhạc hot hiện hành'} dataItems={hotSongs} />
+            <ChartComponent className={'chart px-6 md:px-[59px] mb-10'} />
             <div className='w-full px-6 md:px-[59px] grid grid-cols-3 gap-x-4 mb-10'>
                 {banner2?.length > 0 && banner2.map((item, index) => (
                     <div key={index} className='h-[150px] bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-90'
@@ -33,8 +35,8 @@ const HomePage = () => {
                     />
                 ))}
             </div>
-            <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Nhạc chill'} dataItems={chill} />
-            <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Top 100'} dataItems={top100} />
+            <SectionComponent className='chill px-6 md:px-[59px] mb-10' title={'Nhạc chill'} dataItems={chill} />
+            <SectionComponent className='top-100 px-6 md:px-[59px] mb-10' title={'Top 100'} dataItems={top100} />
             <NewRelease className={'new-release px-6 md:px-[59px] mb-10'} />
             <SectionComponent className='hot-songs px-6 md:px-[59px]' title={'Album Hot'} dataItems={albumHot} />
 
