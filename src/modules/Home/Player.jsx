@@ -258,7 +258,7 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
             </div>
             <div className='basis-1/4 flex items-center justify-end gap-3'>
                 <div className='flex gap-2 items-center'>
-                    <span onClick={() => setVolume(p => +p === 0 ? 70 : 0)}>
+                    <span className='cursor-pointer' onClick={() => setVolume(p => +p === 0 ? 70 : 0)}>
                         {+volume >= 70 ? <FaVolumeUp size={23} /> : +volume >= 40 ? <IoMdVolumeHigh size={23} /> :
                             +volume > 0 ? <FaVolumeDown size={23} /> : <FaVolumeMute size={23} />}
                     </span>

@@ -21,4 +21,19 @@
     .ct-icon-music-player {
         @apply cursor-pointer hover:text-0F hover:transition-colors hover:ease-in-out hover:duration-500;
     }
+
+    .ct-text-shadow-no1 {
+        text-shadow: 1px 1px 0 #4a90e2, -1px 1px 0 #4a90e2, -1px -1px 0 #4a90e2,
+            1px -1px 0 #4a90e2;
+    }
+
+    .ct-text-shadow-no2 {
+        text-shadow: 1px 1px 0 #50e3c2, -1px 1px 0 #50e3c2, -1px -1px 0 #50e3c2,
+            1px -1px 0 #50e3c2;
+    }
+
+    .ct-text-shadow-no3 {
+        text-shadow: 1px 1px 0 #e35050, -1px 1px 0 #e35050, -1px -1px 0 #e35050,
+            1px -1px 0 #e35050;
+    }
 }

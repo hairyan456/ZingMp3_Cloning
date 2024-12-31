@@ -3,5 +3,6 @@ export const path = {
     LOGIN: '/sign-in',
     PLAYLIST__TITLE__PID: 'playlist/:title/:pid',
     WEEKRANK__TITLE__PID: 'zing-chart-tuan/:title/:pid',
+    ZING_CHART: 'zing-chart',
 }
 

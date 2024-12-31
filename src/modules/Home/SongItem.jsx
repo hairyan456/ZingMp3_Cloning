@@ -17,12 +17,13 @@ const SongItem = ({ data = {}, ...props }) => {
     return (
         <div className={`w-full flex-auto flex p-[10px] items-center justify-between cursor-pointer hover:rounded-md hover:transition-colors 
         hover:ease-in-out hover:duration-300 
-        ${props?.order ? 'text-white bg-[hsla(0,0%,100%,.07)] hover:bg-[#A874B8]' : 'text-black hover:bg-E7'}`}
+        ${props?.style ? props.style : 'text-black hover:bg-E7'}`}
             onClick={() => playSong(data?.encodeId)}
         >
             <div className='flex gap-3 items-center'>
                 {props?.order &&
-                    <span className={`text-[30px] text-white drop-shadow-md`}>
+                    <span className={`text-[30px] text-[rgba(115,20,140,0.8)] ${props?.order === 1 ? 'ct-text-shadow-no1' : props?.order === 2 ? 'ct-text-shadow-no2'
+                        : 'ct-text-shadow-no3'}`}>
                         {props.order}
                     </span>
                 }
@@ -42,7 +43,7 @@ const SongItem = ({ data = {}, ...props }) => {
                     }
                 </div>
             </div>
-            {props?.percent && <span>{props.percent}%</span>}
+            {props?.percent && <span className='font-bold'>{props.percent}%</span>}
         </div>
     );
 };
