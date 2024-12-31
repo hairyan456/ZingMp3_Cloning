@@ -10,6 +10,7 @@ export default {
     // nếu custom smaller breakpoint thì dùng cách này (không thêm được vào extend)
     screens: {
       'xs': '480px',
+      'sideBarRight':'1340px',
       ...defaultTheme.screens, // chỉ ghi đè mỗi xs breakpoint
     },
     extend: {

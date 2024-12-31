@@ -103,9 +103,10 @@ const ChartComponent = ({ className = '' }) => {
                     <div className='basis-1/3 flex flex-col gap-3'>
                         {rank?.length > 0 && rank.filter((item, index) => index < 3).map((item, index) => (
                             <SongItem key={item?.encodeId} data={item}
+                                sm={true}
                                 order={index + 1}
                                 percent={Math.round((item?.score / chart?.totalScore) * 100)}
-                                style={'text-white bg-[hsla(0,0%,100%,.07)] hover:bg-[#A874B8]'}
+                                style={'text-white bg-[hsla(0,0%,100%,.07)] hover:bg-[#A874B8] rounded-md'}
                             />
                         ))}
                         <Link to={path.ZING_CHART}

@@ -5,6 +5,7 @@ const initState = {
     isError: false,
     isPlaying: false,
     currentSongId: '',
+    currentSongData: {},
     playLists: [],
 };
 
@@ -19,6 +20,12 @@ const musicReducer = (state = initState, action) => {
             return {
                 ...state, currentSongId: action?.payload ?? '',
             };
+
+        case actionTypes.SET_CURRENT_SONG_DATA:
+            return {
+                ...state, currentSongData: action?.payload ?? {},
+            };
+
 
         case actionTypes.SET_PLAYLIST_START:
             return {

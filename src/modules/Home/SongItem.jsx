@@ -28,15 +28,15 @@ const SongItem = ({ data = {}, ...props }) => {
                     </span>
                 }
                 <img src={data?.thumbnail} alt="thumbnail"
-                    className={`w-10 h-10 ${props?.order ? 'xl:w-[40px] xl:h-[40px]' : 'xl:w-[60px] xl:h-[60px]'} object-cover rounded-md`} />
+                    className={`w-10 h-10 ${props?.sm ? 'xl:w-10 xl:h-10' : 'xl:w-[60px] xl:h-[60px]'} object-cover rounded-md`} />
                 <div className='flex flex-col gap-1'>
-                    <div className={`text-[12px] lg:text-sm font-semibold  ${!props?.order && 'text-gray-700'}`}>
-                        {data?.title?.length > 40 ? data.title.slice(0, 39) + '...' : data.title}
+                    <div className={`text-xs font-semibold  ${!props?.order && 'text-gray-700'}`}>
+                        {data?.title?.length > 30 ? data.title.slice(0, 30) + '...' : data.title}
                     </div>
                     <div className='text-[10px] lg:text-xs font-light'>
-                        {data?.artistsNames?.length > 30 ? data.artistsNames.slice(0, 29) + '...' : data.artistsNames}
+                        {data?.artistsNames?.length > 30 ? data.artistsNames.slice(0, 30) + '...' : data.artistsNames}
                     </div>
-                    {!props?.order &&
+                    {!props?.sm &&
                         <div className='text-[10px] lg:text-xs font-light'>
                             {moment(data?.releaseDate * 1000).fromNow()}
                         </div>

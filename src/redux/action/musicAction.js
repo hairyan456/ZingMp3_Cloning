@@ -6,6 +6,11 @@ export const setCurrentSongRedux = (songId) => ({
     payload: songId
 });
 
+export const setCurrentSongDataRedux = (songData) => ({
+    type: actionTypes.SET_CURRENT_SONG_DATA,
+    payload: songData
+});
+
 export const setIsPLayingRedux = (flag) => ({
     type: actionTypes.SET_IS_PLAYING,
     payload: flag

@@ -1,11 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useSelector } from 'react-redux';
+import { SongItem } from './';
+import { MdOutlineNavigateNext } from "react-icons/md";
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
 const SidebarRight = () => {
-    return (
-        <div className='w-[350px] animate-slideLeft hidden xl:block border border-l-gray-400 '>
+    const currentSongId = useSelector(state => state.music.currentSongId);
+    const currentSongData = useSelector(state => state.music.currentSongData);
+    const playLists = useSelector(state => state?.music?.playLists);
+    const [isRecent, setIsRecent] = useState(false);
 
+    return (
+        <div className='w-[400px] max-w-[300px] animate-slideLeft hidden sideBarRight:flex border border-l-gray-400 sideBarRight:flex-col'>
+            <div className='h-[70px] flex-none py-[14px] px-2 gap-8 flex items-center justify-between'>
+                <div className='text-[10px] flex flex-auto justify-center bg-E7 rounded-l-full rounded-r-full py-[6px] px-[6px] cursor-pointer'>
+                    <span className={`py-[5px] flex-1 flex justify-center rounded-l-full rounded-r-full items-center
+                    ${!isRecent && 'bg-DD'}`}
+                        onClick={() => setIsRecent(p => !p)}
+                    >
+                        Danh sách phát
+                    </span>
+                    <span className={`py-[5px] flex-1 flex justify-center rounded-l-full rounded-r-full items-center
+                    ${isRecent && 'bg-DD'}`}
+                        onClick={() => setIsRecent(p => !p)}
+                    >
+                        Nghe gần đây
+                    </span>
+                </div>
+                <span className='p-2 rounded-full cursor-pointer transition-colors hover:bg-E7'><RiDeleteBin6Line size={14} /></span>
+            </div>
+
+            <div className='flex-auto flex-col text-xs px-2'>
+                {currentSongId && <SongItem data={currentSongData} sm={true} style={'bg-E7 rounded-lg'} />}
+                <div className='flex flex-col text-sm pt-4 px-2 pb-1'>
+                    <span className='font-medium flex items-center'>Tiếp theo <MdOutlineNavigateNext size={14} /></span>
+                    <span className='opacity-70 text-xs flex gap-1'>
+                        <span>Từ playlist </span>
+                        <span className='font-semibold text-gray-800 tracking-wider'>
+                            {currentSongData?.album?.title?.length > 30 ? currentSongData?.album?.title.slice(0, 30) + '...' : currentSongData?.album?.title}
+                        </span>
+                    </span>
+                </div>
+                <PerfectScrollbar style={{ maxHeight: !currentSongId ? 'calc(100vh - 190px)' : 'calc(100vh - 310px)' }}>
+                    <div className='flex flex-col'>
+                        {playLists?.song?.items?.length > 0 && playLists.song.items.map(item => (
+                            <SongItem key={item?.encodeId} data={item} sm={true} />
+                        ))}
+                    </div>
+                </PerfectScrollbar>
+            </div>
         </div>
     );
 };
 
-export default SidebarRight;
+export default React.memo(SidebarRight);

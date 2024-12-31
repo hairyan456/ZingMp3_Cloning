@@ -4,7 +4,7 @@ import { getDetailSong, getSong } from '../../services/musicService';
 import { toast } from 'react-toastify';
 import icons from '../../utils/icons';
 import moment from 'moment';
-import { setCurrentSongRedux, setIsPLayingRedux } from '../../redux/action';
+import { setCurrentSongRedux, setIsPLayingRedux, setCurrentSongDataRedux } from '../../redux/action';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
@@ -53,8 +53,10 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
         setIsLoadingSong(true);
         try {
             const res = await getDetailSong(currentSongId);
-            if (res?.err === 0)
+            if (res?.err === 0) {
                 setInfoSong(res?.data ?? {});
+                dispatch(setCurrentSongDataRedux(res?.data ?? {}));
+            }
         } catch (error) {
             console.log(error);
             toast.error(error?.message);
