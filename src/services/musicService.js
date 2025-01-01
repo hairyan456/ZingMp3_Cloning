@@ -12,4 +12,8 @@ const getDetailPlaylist = (id) => {
     return axios.get(`/detailplaylist?id=${id}`);
 }
 
-export { getSong, getDetailSong, getDetailPlaylist };
+const searchSong = (keyword) => {
+    return axios.get(`/search?keyword=${keyword}`);
+}
+
+export { getSong, getDetailSong, getDetailPlaylist,searchSong };

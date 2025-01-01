@@ -20,7 +20,6 @@ const HomePage = () => {
         document.title = 'Zing Mp3 - Trang chủ'
     }, []);
 
-
     return (
         <div className='w-full pb-5'>
             <SliderComponent />

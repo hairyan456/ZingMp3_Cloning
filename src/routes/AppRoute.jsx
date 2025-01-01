@@ -9,6 +9,9 @@ const LoginPage = lazy(() => import('../pages/public/LoginPage'));
 const PlaylistPage = lazy(() => import('../pages/public/PLaylistPage'));
 const WeekRankPage = lazy(() => import('../pages/public/WeekRankPage'));
 const ZingChartPage = lazy(() => import('../pages/public/ZingChartPage'));
+const SearchPage = lazy(() => import('../pages/public/SearchPage'));
+const SongSearch = lazy(() => import('../pages/public/search/SongSearch'));
+const AllSearch = lazy(() => import('../pages/public/search/AllSearch'));
 
 const LoadingContainer = styled.div`
   display: flex;
@@ -45,6 +48,10 @@ const AppRoute = () => {
           <Route path={path.PLAYLIST__TITLE__PID} element={<PlaylistPage />} />
           <Route path={path.WEEKRANK__TITLE__PID} element={<WeekRankPage />} />
           <Route path={path.ZING_CHART} element={<ZingChartPage />} />
+          <Route path={path.SEACH} element={<SearchPage />} >
+            <Route path={path.ALL} element={<AllSearch />} />
+            <Route path={path.SONG} element={<SongSearch />} />
+          </Route>
           <Route path="*" element={<>404: Not found page</>} />
         </Route>
         <Route path={path.LOGIN} element={<LoginPage />} />
