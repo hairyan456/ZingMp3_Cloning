@@ -12,6 +12,7 @@ const SongItem = ({ data = {}, ...props }) => {
     const playSong = (sId) => {
         if (!sId) return;
         dispatch(actions.setCurrentSongRedux(sId));
+        dispatch(actions.setRecentSongsRedux(data));
     };
 
     return (

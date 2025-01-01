@@ -16,6 +16,11 @@ export const setIsPLayingRedux = (flag) => ({
     payload: flag
 });
 
+export const setRecentSongsRedux = (data) => ({
+    type: actionTypes.SET_RECENT_SONGS,
+    payload: data
+});
+
 export const fetchDetailPlaylistRedux = (pid) => {
     return async (dispatch, getState) => {
         dispatch({ type: actionTypes.SET_PLAYLIST_START });

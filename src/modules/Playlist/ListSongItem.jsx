@@ -15,6 +15,7 @@ const ListSongItem = ({ songData = {} }) => {
     const playSong = (sId) => {
         if (!sId) return;
         dispatch(actions.setCurrentSongRedux(sId));
+        dispatch(actions.setRecentSongsRedux(songData));
     };
 
     if (_.isEmpty(songData)) return null;

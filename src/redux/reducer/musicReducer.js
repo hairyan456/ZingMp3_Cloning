@@ -7,6 +7,7 @@ const initState = {
     currentSongId: '',
     currentSongData: {},
     playLists: [],
+    recentSongs: [],
 };
 
 const musicReducer = (state = initState, action) => {
@@ -24,6 +25,19 @@ const musicReducer = (state = initState, action) => {
         case actionTypes.SET_CURRENT_SONG_DATA:
             return {
                 ...state, currentSongData: action?.payload ?? {},
+            };
+
+        case actionTypes.SET_RECENT_SONGS:
+            return {
+                ...state,
+                recentSongs: action?.payload
+                    ? [
+                        action.payload,
+                        ...state.recentSongs
+                            .filter((song) => song.encodeId !== action.payload.encodeId)
+                            .slice(0, 19),
+                    ]
+                    : state.recentSongs,
             };
 
 
