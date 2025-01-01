@@ -8,6 +8,7 @@ const initState = {
     currentSongData: {},
     playLists: [],
     recentSongs: [],
+    searchData: {},
 };
 
 const musicReducer = (state = initState, action) => {
@@ -56,6 +57,23 @@ const musicReducer = (state = initState, action) => {
             toast.error(action?.payload);
             return {
                 ...state, isLoading: false, isError: true, playLists: []
+            }
+
+        case actionTypes.SEARCH_DATA_START:
+            return {
+                ...state, isLoading: true, isError: false,
+            };
+        case actionTypes.SEARCH_DATA_SUCCESS:
+            return {
+                ...state,
+                isLoading: false,
+                isError: false,
+                searchData: action?.payload ?? {},
+            };
+        case actionTypes.SEARCH_DATA_FAILED:
+            toast.error(action?.payload);
+            return {
+                ...state, isLoading: false, isError: true, searchData: {}
             }
 
         default:

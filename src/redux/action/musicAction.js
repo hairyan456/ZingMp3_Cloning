@@ -1,5 +1,5 @@
 import actionTypes from "./actionTypes";
-import { getDetailPlaylist } from "../../services/musicService";
+import { getDetailPlaylist, searchSong } from "../../services/musicService";
 
 export const setCurrentSongRedux = (songId) => ({
     type: actionTypes.SET_CURRENT_SONG_ID,
@@ -45,3 +45,26 @@ export const fetchDetailPlaylistRedux = (pid) => {
     };
 };
 
+export const searchDataRedux = (keyword) => {
+    return async (dispatch, getState) => {
+        dispatch({ type: actionTypes.SEARCH_DATA_START });
+        try {
+            const res = await searchSong(keyword);
+            if (res?.err === 0)
+                dispatch({ type: actionTypes.SEARCH_DATA_SUCCESS, payload: res?.data ?? {} });
+            else {
+                console.log(res);
+                dispatch({
+                    type: actionTypes.SEARCH_DATA_FAILED,
+                    payload: res?.msg ?? "Error search song",
+                });
+            }
+        } catch (error) {
+            console.error("Error in searchDataRedux:", error);
+            dispatch({
+                type: actionTypes.SEARCH_DATA_FAILED,
+                payload: error?.message || "Unexpected error occurred",
+            });
+        }
+    };
+};

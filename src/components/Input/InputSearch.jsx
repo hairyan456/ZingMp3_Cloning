@@ -1,26 +1,21 @@
 import React, { useState } from 'react';
 import icons from '../../utils/icons';
-import { searchSong } from '../../services/musicService';
-import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { searchDataRedux } from '../../redux/action/musicAction';
+import { useNavigate } from 'react-router-dom';
+import { path } from '../../utils/constant';
 
 const { CiSearch } = icons;
 
 const InputSearch = () => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [keyword, setKeyword] = useState('');
 
     const handleKeyDown = async (e) => {
         if (e.key === 'Enter') {
-            try {
-                let res = await searchSong(keyword ?? '');
-                if (res?.err === 0) {
-                    console.log(res?.data)
-                }
-                else
-                    toast.error(res?.msg);
-            } catch (error) {
-                console.error("Error while searching song:", error);
-                toast.error(error?.message);
-            }
+            dispatch(searchDataRedux(keyword));
+            navigate(`/${path.SEACH}/${path.ALL}?q=${keyword }`)
         }
     };
 
@@ -34,7 +29,7 @@ const InputSearch = () => {
                 placeholder='Tìm kiếm bài hát, nghệ sĩ, lời bài hát...'
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
-                onKeyDown={handleKeyDown} // Thêm sự kiện onKeyDown
+                onKeyDown={handleKeyDown}
             />
         </div>
     );
