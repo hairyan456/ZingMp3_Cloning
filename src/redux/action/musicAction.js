@@ -21,6 +21,11 @@ export const setRecentSongsRedux = (data) => ({
     payload: data
 });
 
+export const setKeywordRedux = (keyword) => ({
+    type: actionTypes.SET_KEYWORD,
+    payload: keyword
+});
+
 export const fetchDetailPlaylistRedux = (pid) => {
     return async (dispatch, getState) => {
         dispatch({ type: actionTypes.SET_PLAYLIST_START });

@@ -10,7 +10,7 @@ export default {
     // nếu custom smaller breakpoint thì dùng cách này (không thêm được vào extend)
     screens: {
       'xs': '480px',
-      'sideBarRight':'1340px',
+      'sideBarRight': '1340px',
       ...defaultTheme.screens, // chỉ ghi đè mỗi xs breakpoint
     },
     extend: {
@@ -93,6 +93,26 @@ export default {
             transform: 'rotate(0)'
           }
         },
+        'scale-up-image': {
+          '0%': {
+            '-webkit-transform': 'scale(1);',
+            transform: 'scale(1);',
+          },
+          '100%': {
+            '-webkit-transform': 'scale(1.2);',
+            transform: 'scale(1.2);'
+          }
+        },
+        'scale-down-image': {
+          '0%': {
+            '-webkit-transform': 'scale(1.2);',
+            transform: 'scale(1.2);',
+          },
+          '100%': {
+            '-webkit-transform': 'scale(1);',
+            transform: 'scale(1);'
+          }
+        },
       },
       animation: {
         slideUp: 'slideUp 0.8s ease-in-out',
@@ -102,6 +122,8 @@ export default {
         fadeIn: 'fadeIn 0.5s ease-in-out ',
         rotateCenter: 'rotateCenter 8s linear infinite',
         rotatePause: 'rotatePause 0.3s linear 2 both',
+        'scale-up-image': 'scale-up-image 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
+        'scale-down-image': 'scale-down-image 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;',
       },
     },
     plugins: [],

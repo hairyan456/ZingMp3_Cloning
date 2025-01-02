@@ -9,6 +9,8 @@ const initState = {
     playLists: [],
     recentSongs: [],
     searchData: {},
+    keyword: '',
+
 };
 
 const musicReducer = (state = initState, action) => {
@@ -39,6 +41,11 @@ const musicReducer = (state = initState, action) => {
                             .slice(0, 19),
                     ]
                     : state.recentSongs,
+            };
+
+        case actionTypes.SET_KEYWORD:
+            return {
+                ...state, keyword: action?.payload ?? '',
             };
 
 

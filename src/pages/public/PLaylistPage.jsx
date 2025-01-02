@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import _ from 'lodash';
 import { useLocation, useParams } from 'react-router-dom';
 import { Thumbnail, ListSongs } from '../../modules/Playlist';
-import { SlUserFollow } from "react-icons/sl";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDetailPlaylistRedux } from '../../redux/action';
 import * as actions from '../../redux/action'
+import Artist from '../../modules/Artist/Artist';
 
 const PLaylistPage = () => {
     const dispatch = useDispatch();
@@ -50,24 +50,9 @@ const PLaylistPage = () => {
                 <div className='text-xl font-[600] text-gray-800 mb-4'>Nghệ sĩ tham gia</div>
                 <div className='w-full grid grid-cols-4 gap-x-5 gap-y-10'>
                     {playLists?.artists?.length > 0 && playLists.artists.map(item => (
-                        <div key={item?.id} className='h-[330px] flex flex-col items-center gap-4'>
-                            <div
-                                className='h-[200px] w-full max-w-[200px] rounded-full  bg-cover bg-no-repeat bg-center transition-transform duration-300 ease-in-out hover:scale-110'
-                                style={{ backgroundImage: `url(${item?.thumbnail})` }}
-                            />
-                            <div className='flex-auto flex flex-col items-center gap-2'>
-                                <div className='text-base font-semibold text-gray-800'>{item?.name}</div>
-                                <div className='font-light text-xs'>{`${item?.totalFollow} người theo dõi`}</div>
-                                <div>
-                                    <button className=' flex bg-[#9b4de0] text-[#ffffff] px-4 py-2 rounded-xl items-center gap-2'>
-                                        <SlUserFollow /> <span>Quan tâm</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        <Artist key={item?.id} data={item} />
                     ))}
                 </div>
-
             </div>
         </div>
 

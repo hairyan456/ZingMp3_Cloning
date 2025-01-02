@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 const { CiMusicNote1 } = icons;
 
-const ListSongItem = ({ songData = {} }) => {
+const ListSongItem = ({ songData = {}, showAlbum = true }) => {
     const dispatch = useDispatch();
     const currentSongId = useSelector(state => state.music.currentSongId);
 
@@ -20,10 +20,13 @@ const ListSongItem = ({ songData = {} }) => {
 
     if (_.isEmpty(songData)) return null;
     return (
-        <div className={`flex items-center py-2 gap-6 hover:bg-E7 hover:transition-colors 
-        hover:ease-in-out hover:duration-500 ${songData?.encodeId === currentSongId ? 'bg-E7' : ''}`}>
-            <div className='basis-2/5 flex items-center gap-2 cursor-pointer' onClick={() => playSong(songData?.encodeId)}>
-                <span><CiMusicNote1 /></span>
+        <div className={`flex items-center px-2 py-2 gap-6 hover:bg-E7 hover:rounded-md hover:transition-colors hover:ease-in-out hover:duration-500 
+        ${songData?.encodeId === currentSongId ? 'bg-E7 rounded-md' : ''}`}
+        >
+            <div className={`${!showAlbum ? 'basis-4/5' : 'basis-2/5'} flex items-center gap-2 cursor-pointer`}
+                onClick={() => playSong(songData?.encodeId)}
+            >
+                {showAlbum && <span><CiMusicNote1 /></span>}
                 <img src={songData?.thumbnail ?? ''} alt="thumbnail" className='w-8 h-w-8 object-cover rounded-md' />
                 <div className='flex flex-col items-start gap-2'>
                     <div className='text-xs font-medium'>
@@ -32,10 +35,13 @@ const ListSongItem = ({ songData = {} }) => {
                     <div className='text-xs text-gray-600'>{songData?.artistsNames}</div>
                 </div>
             </div>
-            <div className='basis-2/5 text-xs font-light'>
-                {songData?.album?.title}
-            </div>
-            <div className='basis-1/5 text-xs font-light'>
+            {showAlbum &&
+                <div className='basis-2/5 text-xs font-light'>
+                    {songData?.album?.title}
+                </div>
+            }
+
+            <div className={`${!showAlbum ? 'basis-1/5 ' : 'basis-1/5 '}flex justify-end text-xs font-light`}>
                 {songData?.duration && moment.utc(songData?.duration * 1000).format("mm:ss")}
             </div>
         </div>

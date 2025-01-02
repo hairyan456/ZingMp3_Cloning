@@ -38,9 +38,11 @@ const CardItem = ({ className = '', item = {}, }) => {
                 }
             </div >
             <div className='flex-auto text-center py-3 flex flex-col gap-3'>
-                <div className='font-semibold text-gray-700 tracking-wider'>{item.title}</div>
+                <div className='font-semibold text-gray-700 tracking-wider'>
+                    {item?.title?.length > 20 ? item.title.slice(0, 20) + '...' : item.title}
+                </div>
                 <div className='text-xs text-gray-500 text-justify tracking-wide'>
-                    {item?.sortDescription?.length > 55 ? item.sortDescription.slice(0, 54) + '...' : item.sortDescription}
+                    {item?.sortDescription?.length > 50 ? item.sortDescription.slice(0, 50) + '...' : item.sortDescription}
                 </div>
             </div>
         </div >
