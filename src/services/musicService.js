@@ -16,4 +16,12 @@ const searchSong = (keyword) => {
     return axios.get(`/search?keyword=${keyword}`);
 }
 
-export { getSong, getDetailSong, getDetailPlaylist,searchSong };
+const getDetailArtist = (alias) => {
+    return axios.get(`/artist?name=${alias}`);
+}
+
+const getArtistSongs = (singerId) => {
+    return axios.get(`/artistsong?id=${singerId}&page=1&count=40`);
+}
+
+export { getSong, getDetailSong, getDetailPlaylist, searchSong, getArtistSongs,getDetailArtist };

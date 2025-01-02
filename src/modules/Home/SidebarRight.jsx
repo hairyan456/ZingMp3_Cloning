@@ -47,7 +47,7 @@ const SidebarRight = () => {
                         <span className='font-medium flex items-center'>Tiếp theo <MdOutlineNavigateNext size={14} /></span>
                         <span className='opacity-70 text-xs flex gap-2'>
                             <span className='text-nowrap '>Từ playlist </span>
-                            <span className='font-semibold text-gray-800 tracking-wider'>
+                            <span className='font-semibold text-[10px] text-0F tracking-wider'>
                                 {currentSongData?.album?.title?.length > 30 ? currentSongData?.album?.title.slice(0, 30) + '...' : currentSongData?.album?.title}
                             </span>
                         </span>

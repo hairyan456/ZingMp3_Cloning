@@ -1,5 +1,5 @@
 import actionTypes from "./actionTypes";
-import { getDetailPlaylist, searchSong } from "../../services/musicService";
+import { getArtistSongs, getDetailPlaylist, searchSong } from "../../services/musicService";
 
 export const setCurrentSongRedux = (songId) => ({
     type: actionTypes.SET_CURRENT_SONG_ID,
@@ -73,3 +73,28 @@ export const searchDataRedux = (keyword) => {
         }
     };
 };
+
+export const fetchArtistSongsRedux = (sId) => {
+    return async (dispatch, getState) => {
+        dispatch({ type: actionTypes.SET_ARTIST_SONGS_START });
+        try {
+            const res = await getArtistSongs(sId);
+            if (res?.err === 0)
+                dispatch({ type: actionTypes.SET_ARTIST_SONGS_SUCCESS, payload: res?.data?.items ?? [] });
+            else {
+                console.log(res);
+                dispatch({
+                    type: actionTypes.SET_ARTIST_SONGS_FAILED,
+                    payload: res?.msg ?? "Error fetching artist songs",
+                });
+            }
+        } catch (error) {
+            console.error("Error in fetchArtistSongsRedux:", error);
+            dispatch({
+                type: actionTypes.SET_ARTIST_SONGS_FAILED,
+                payload: error?.message || "Unexpected error occurred",
+            });
+        }
+    };
+};
+
