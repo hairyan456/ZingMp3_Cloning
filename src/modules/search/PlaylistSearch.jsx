@@ -35,4 +35,4 @@ const PlaylistSearch = () => {
     );
 };
 
-export default PlaylistSearch;
+export default React.memo(PlaylistSearch);

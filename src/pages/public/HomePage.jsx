@@ -37,7 +37,7 @@ const HomePage = () => {
             <SectionComponent className='chill px-6 md:px-[59px] mb-10' title={'Nhạc chill'} dataItems={chill} />
             <SectionComponent className='top-100 px-6 md:px-[59px] mb-10' title={'Top 100'} dataItems={top100} />
             <NewRelease className={'new-release px-6 md:px-[59px] mb-10'} />
-            <SectionComponent className='hot-songs px-6 md:px-[59px]' title={'Album Hot'} dataItems={albumHot} />
+            <SectionComponent className='album-hot px-6 md:px-[59px]' title={'Album Hot'} dataItems={albumHot} />
         </div>
     );
 };

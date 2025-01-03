@@ -9,5 +9,6 @@ export const path = {
     SONG: 'bai-hat',
     PLAYLIST_SEARCH: 'playlist',
     HOME__SINGER: ':singer',
+    HOME__ARTIST__SINGER: 'nghe-si/:singer',
 }
 

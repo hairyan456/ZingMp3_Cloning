@@ -51,6 +51,7 @@ const AppRoute = () => {
           <Route path={path.WEEKRANK__TITLE__PID} element={<WeekRankPage />} />
           <Route path={path.ZING_CHART} element={<ZingChartPage />} />
           <Route path={path.HOME__SINGER} element={<SingerPage />} />
+          <Route path={path.HOME__ARTIST__SINGER} element={<SingerPage />} />
           <Route path={path.SEACH} element={<SearchPage />} >
             <Route path={path.ALL} element={<AllSearch />} />
             <Route path={path.SONG} element={<SongSearch />} />

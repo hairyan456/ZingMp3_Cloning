@@ -56,7 +56,7 @@ const AllSearch = () => {
                 <div className='w-full grid grid-cols-2 gap-x-10 gap-y-2'>
                     {searchData?.songs?.length > 0 && searchData?.songs?.map(item => (
                         <ListSongItem key={item?.encodeId} songData={item} showAlbum={false} />
-                    ))}
+                    ))}     
                 </div>
             </div>
 

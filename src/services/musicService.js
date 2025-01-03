@@ -21,7 +21,7 @@ const getDetailArtist = (alias) => {
 }
 
 const getArtistSongs = (singerId) => {
-    return axios.get(`/artistsong?id=${singerId}&page=1&count=40`);
+    return axios.get(`/artistsong?id=${singerId}&page=1&count=50`);
 }
 
-export { getSong, getDetailSong, getDetailPlaylist, searchSong, getArtistSongs,getDetailArtist };
+export { getSong, getDetailSong, getDetailPlaylist, searchSong, getArtistSongs, getDetailArtist };
