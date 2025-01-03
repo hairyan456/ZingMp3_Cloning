@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import _ from 'lodash';
 import { useLocation, useParams } from 'react-router-dom';
 import { Thumbnail, ListSongs } from '../../modules/Playlist';
@@ -12,8 +12,12 @@ const PLaylistPage = () => {
     const params = useParams();
     const location = useLocation();
     const playLists = useSelector(state => state?.music?.playLists);
+    const playlistRef = useRef(null);
 
     useEffect(() => {
+        if (playlistRef?.current)
+            playlistRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+
         if (params?.pid)
             dispatch(fetchDetailPlaylistRedux(params.pid));
     }, [params?.pid]);
@@ -28,7 +32,7 @@ const PLaylistPage = () => {
     //xl:max-w-[calc(100vw-240px-330px)]
     if (!params?.pid) return null;
     return (
-        <div className='w-full'>
+        <div className='w-full' ref={playlistRef}>
             <div className='w-full flex flex-row px-12 pt-5 gap-5 mb-12'>
                 <div className='basis-2/6 h-fit flex flex-col text-center items-center gap-3 px-4'>
                     <Thumbnail
