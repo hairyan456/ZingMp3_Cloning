@@ -7,14 +7,15 @@ import _ from 'lodash';
 import { SongItem } from '../../modules/Home';
 import icons from '../../utils/icons';
 import { ListSongItem } from '../../modules/Playlist';
+import ChartRank from '../../modules/Chart/ChartRank';
+import { useNavigate } from 'react-router-dom';
 
 const { FaRegPlayCircle } = icons;
 
 const ZingChartPage = () => {
+    const navigate = useNavigate();
     const [chartData, setChartData] = useState([]);
     const [data, setData] = useState(null);
-    const [isShowAll, setShowAll] = useState(false);
-    const [songs, setSongs] = useState([]);
     const [tooltipState, setTooltipState] = useState({
         opacity: 0,
         top: 0,
@@ -94,7 +95,6 @@ const ZingChartPage = () => {
         fetchChartHome();
     }, []);
 
-
     useEffect(() => {
         if (chartData?.RTChart?.chart?.times && chartData?.RTChart?.chart?.items) {
             const labels = chartData.RTChart.chart.times.filter(item => +item.hour % 2 === 0).map(item => `${item.hour}:00`);
@@ -114,12 +114,7 @@ const ZingChartPage = () => {
         }
     }, [chartData]);
 
-    useEffect(() => {
-        if (chartData?.RTChart?.items?.length > 0)
-            setSongs(!isShowAll ? chartData?.RTChart?.items?.filter(((item, index) => index < 10))
-                : chartData?.RTChart?.items);
-    }, [isShowAll, chartData]);
-
+    if (_.isEmpty(chartData)) return null;
     return (
         <div className='w-full flex flex-col px-[60px] gap-y-8 pb-10'>
             <div className='flex gap-2 items-center text-0F'>
@@ -142,17 +137,34 @@ const ZingChartPage = () => {
                     />
                 </div>
             </div>
-            <div className='w-full'>
-                {songs?.length > 0 && songs.map((item, index) => (
-                    <ListSongItem key={item?.encodeId} songData={item} order={index + 1} />
-                ))}
+            <ChartRank data={chartData?.RTChart?.items} />
+            <div className='w-full flex flex-col gap-8'>
+                <h3 className='text-0F font-semibold text-2xl mt-4'>Bảng Xếp Hạng Tuần</h3>
+                <div className='w-full grid grid-cols-3 gap-x-4'>
+                    {chartData?.weekChart && Object.entries(chartData.weekChart)?.map((item) => (
+                        <div className='flex flex-col gap-4 bg-gray-200 rounded-lg px-[10px] py-5 relative' key={item[0]}>
+                            <div className='flex gap-2 text-base items-center text-0F justify-center'>
+                                <h3 className='font-semibold '>
+                                    {item[0] === 'vn' ? 'Việt Nam' : item[0] === 'us' ? 'US-UK' : item[0] === 'korea' ? 'Kpop' : ''}
+                                </h3>
+                                <span><FaRegPlayCircle size={20} /></span>
+                            </div>
+                            <ChartRank className='mb-12'
+                                data={item[1]?.items?.filter((item2, index) => index < 5)}
+                                showAlbum={false} hideButton={true}
+                            />
+                            <div className='absolute bottom-4 left-1/2 -translate-x-1/2'>
+                                <button className='px-4 py-2 border text-xs w-fit text-0F border-0F rounded-full 
+                                hover:text-white hover:bg-0F hover:transition-colors'
+                                    onClick={() => navigate(item[1]?.link?.replace('.html', ''))}
+                                >
+                                    Xem tất cả
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <button className='px-6 mx-auto py-2 border text-sm w-fit text-0F border-[#0E8080] rounded-l-full 
-            rounded-r-full hover:text-white hover:bg-0F hover:transition-colors'
-                onClick={() => {setShowAll(p => !p)}}
-            >
-                {isShowAll ? 'Ẩn bớt' : 'Xem tất cả'}
-            </button>
         </div>
     );
 };

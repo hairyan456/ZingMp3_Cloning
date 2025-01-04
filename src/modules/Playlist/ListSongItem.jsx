@@ -27,9 +27,11 @@ const ListSongItem = ({ songData = {}, showAlbum = true, ...props }) => {
                 onClick={() => playSong(songData?.encodeId)}
             >
                 {props?.order ?
-                    <span className={`text-[30px] text-[rgba(115,20,140,0.8)] w-16 max-w-16 flex items-center justify-center
+                    <span className={`${showAlbum ? 'text-[30px]' : 'text-base'} text-[rgba(115,20,140,0.8)]  
+                    ${showAlbum ? 'w-16 max-w-16 flex items-center justify-center' : 'w-3 max-w-3'}
                     ${props?.order === 1 ? 'ct-text-shadow-no1' : props?.order === 2 ? 'ct-text-shadow-no2' : props?.order === 3 ?
-                            'ct-text-shadow-no3' : 'ct-text-shadow-other'}`}>
+                            'ct-text-shadow-no3' : 'ct-text-shadow-other'}`}
+                    >
                         {props.order}
                     </span>
                     :
