@@ -2,25 +2,27 @@ import React from 'react';
 import icons from '../../utils/icons';
 import InputSearch from '../Input/InputSearch';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const { IoIosArrowRoundBack, IoIosArrowRoundForward } = icons;
 
 const Header = () => {
     const navigate = useNavigate();
     const { singer } = useParams();
+    const { scrollTop } = useSelector(state => state.app);
 
     return (
-        <div className={`h-[70px]  ${singer ?
+        <div className={`h-[70px]  ${singer && scrollTop ?
             'fixed top-0 left-[240px] bg-transparent right-[329px] px-[60px] z-50 flex items-center'
             : 'px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md mb-5'}`}
         >
             <div className='basis-4/6 flex gap-5 items-center'>
                 <div className='hidden md:flex text-gray-500 gap-3 basis'>
                     <span className='cursor-pointer' onClick={() => navigate(-1)} >
-                        <IoIosArrowRoundBack size={25} color={singer ? 'white' : 'black'} />
+                        <IoIosArrowRoundBack size={25} color={singer && scrollTop ? 'white' : 'black'} />
                     </span>
                     <span className='cursor-pointer' onClick={() => navigate(1)}>
-                        <IoIosArrowRoundForward size={25} color={singer ? 'white' : 'black'} />
+                        <IoIosArrowRoundForward size={25} color={singer && scrollTop ? 'white' : 'black'} />
                     </span>
                 </div>
                 <div className='ct-search flex-auto min-w-[100px]'>

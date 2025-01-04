@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 const { CiMusicNote1 } = icons;
 
-const ListSongItem = ({ songData = {}, showAlbum = true }) => {
+const ListSongItem = ({ songData = {}, showAlbum = true, ...props }) => {
     const dispatch = useDispatch();
     const currentSongId = useSelector(state => state.music.currentSongId);
 
@@ -26,7 +26,15 @@ const ListSongItem = ({ songData = {}, showAlbum = true }) => {
             <div className={`${!showAlbum ? 'basis-4/5' : 'basis-2/5'} flex items-center gap-2 cursor-pointer`}
                 onClick={() => playSong(songData?.encodeId)}
             >
-                {showAlbum && <span><CiMusicNote1 /></span>}
+                {props?.order ?
+                    <span className={`text-[30px] text-[rgba(115,20,140,0.8)] w-16 max-w-16 flex items-center justify-center
+                    ${props?.order === 1 ? 'ct-text-shadow-no1' : props?.order === 2 ? 'ct-text-shadow-no2' : props?.order === 3 ?
+                            'ct-text-shadow-no3' : 'ct-text-shadow-other'}`}>
+                        {props.order}
+                    </span>
+                    :
+                    showAlbum && <span><CiMusicNote1 /></span>
+                }
                 <img src={songData?.thumbnail ?? ''} alt="thumbnail" className='w-8 h-w-8 object-cover rounded-md' />
                 <div className='flex flex-col items-start gap-2'>
                     <div className='text-xs font-medium'>
@@ -36,7 +44,7 @@ const ListSongItem = ({ songData = {}, showAlbum = true }) => {
                 </div>
             </div>
             {showAlbum &&
-                <div className='basis-2/5 text-xs font-light'>
+                <div className='basis-2/5 text-[11px] text-center font-light'>
                     {songData?.album?.title}
                 </div>
             }

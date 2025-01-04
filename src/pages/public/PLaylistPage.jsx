@@ -15,9 +15,12 @@ const PLaylistPage = () => {
     const playlistRef = useRef(null);
 
     useEffect(() => {
-        if (playlistRef?.current)
+        if (playlistRef?.current) {
             playlistRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
+    }, []);
 
+    useEffect(() => {
         if (params?.pid)
             dispatch(fetchDetailPlaylistRedux(params.pid));
     }, [params?.pid]);

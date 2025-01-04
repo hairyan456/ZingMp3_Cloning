@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import SliderComponent from '../../components/Slider/SliderComponent';
 import { useSelector } from 'react-redux';
 import SectionComponent from '../../components/Section/SectionComponent';
@@ -8,6 +8,7 @@ import ChartComponent from '../../components/Chart/ChartComponent';
 
 const HomePage = () => {
     const navigate = useNavigate();
+    const homeRef = useRef(null);
 
     const bestOf2024 = useSelector(state => state.app.bestOf2024);
     const hotSongs = useSelector(state => state.app.hotSongs);
@@ -17,11 +18,13 @@ const HomePage = () => {
     const albumHot = useSelector(state => state.app.albumHot);
 
     useEffect(() => {
+        if (homeRef?.current)
+            homeRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         document.title = 'Zing Mp3 - Trang chủ'
     }, []);
 
     return (
-        <div className='w-full'>
+        <div className='w-full' ref={homeRef}>
             <SliderComponent />
             <SectionComponent className='best-of-2024 px-6 md:px-[59px] mb-10' title={'Best of 2024'} dataItems={bestOf2024} />
             <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Nhạc hot hiện hành'} dataItems={hotSongs} />

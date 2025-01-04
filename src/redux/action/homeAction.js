@@ -24,3 +24,9 @@ export const getHomeRedux = () => {
         }
     };
 };
+
+export const setScrollTopRedux = (flag) => ({
+    type: actionTypes.SET_SCROLL_TOP,
+    payload: flag
+});
+

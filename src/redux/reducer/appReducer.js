@@ -14,6 +14,7 @@ const initState = {
     newRelease: {},
     chart: {},
     rank: [],
+    scrollTop: false
 };
 
 const appReducer = (state = initState, action) => {
@@ -44,6 +45,12 @@ const appReducer = (state = initState, action) => {
             toast.error(action?.payload);
             return {
                 ...state, isLoading: false, isError: true, banner: []
+            }
+
+        case actionTypes.SET_SCROLL_TOP:
+            return {
+                ...state,
+                scrollTop: action?.payload,
             }
         default:
             return state;

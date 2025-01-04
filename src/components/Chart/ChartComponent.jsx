@@ -71,7 +71,7 @@ const ChartComponent = ({ className = '' }) => {
             mode: 'dataset',
             intersect: false
         }
-    }), []);
+    }), [chart]);
 
     useEffect(() => {
         if (chart?.times && chart?.items) {
@@ -114,7 +114,7 @@ const ChartComponent = ({ className = '' }) => {
                             Xem thêm
                         </Link>
                     </div>
-                    <div className='basis-2/3 relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
+                    <div className='basis-2/3 w-1/2 relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
                         {data && <Line data={data} ref={chartRef} options={options} />}
                         <div className='tooltip text-white'
                             style={{

@@ -30,7 +30,7 @@ const SingerPage = () => {
 
     useEffect(() => {
         if (singerRef?.current)
-            singerRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+            singerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         if (params?.singer)
             fetchDetailArtist(params.singer);
     }, [params?.singer]);
