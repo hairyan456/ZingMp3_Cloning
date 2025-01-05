@@ -45,10 +45,7 @@ const PLaylistPage = () => {
                 <div className='w-full' ref={playlistRef}>
                     <div className='w-full flex flex-row px-12 pt-5 gap-5 mb-12'>
                         <div className='basis-2/6 h-fit flex flex-col text-center items-center gap-3 px-4'>
-                            <Thumbnail
-                                thumbnail={playLists?.thumbnail} title={playLists?.playList}
-                                contentLastUpdate={playLists?.contentLastUpdate} artistsNames={playLists?.artistsNames}
-                                like={playLists?.like} />
+                            <Thumbnail playlists={playLists} />
                         </div>
 
                         <div className='basis-4/6'>

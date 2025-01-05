@@ -18,7 +18,7 @@ const CardItem = ({ className = '', item = {}, }) => {
     return (
         <div className={`${className}`}>
             <div style={{ backgroundImage: `url(${item?.thumbnail})` }}
-                className='h-[230px] rounded-md relative bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110'
+                className='h-[130px] xs:h-[200px] xl:h-[230px] rounded-md relative bg-contain sm:bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-110'
                 onMouseEnter={() => setIsHover(true)}
                 onMouseLeave={() => setIsHover(false)}
             >
@@ -38,10 +38,10 @@ const CardItem = ({ className = '', item = {}, }) => {
                 }
             </div >
             <div className='flex-auto text-center py-3 flex flex-col gap-3'>
-                <div className='font-semibold text-gray-700 tracking-wider'>
+                <div className='font-semibold text-xs xs:text-sm text-gray-700 tracking-wider'>
                     {item?.title?.length > 20 ? item.title.slice(0, 20) + '...' : item.title}
                 </div>
-                <div className='text-xs text-gray-500 text-justify tracking-wide'>
+                <div className='text-[10px] xs:text-xs text-gray-500 text-justify tracking-wide'>
                     {item?.sortDescription?.length > 50 ? item.sortDescription.slice(0, 50) + '...' : item.sortDescription}
                 </div>
             </div>

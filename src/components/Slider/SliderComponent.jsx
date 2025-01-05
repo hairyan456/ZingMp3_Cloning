@@ -19,7 +19,7 @@ const SliderComponent = () => {
     if (banner?.length <= 0)
         return null;
     return (
-        <div className='hidden xs:block xs:w-[320px] mx-auto sm:w-[450px] md:w-[520px] lg:w-[750px] xl:w-[900px] xl:px-5 py-5'>
+        <div className='w-[290px] xs:w-[380px] mx-auto sm:w-[450px] md:w-[520px] lg:w-[750px] xl:w-[900px] xl:px-5 py-5'>
             {banner?.length === 1 ?
                 <img key={banner[0]?.encodeId} src={banner[0]?.banner ?? ''} alt=""
                     className='w-full h-14 xs:h-140 md:h-24 lg:h-32 object-cover'

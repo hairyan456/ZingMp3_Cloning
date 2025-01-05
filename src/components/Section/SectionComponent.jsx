@@ -8,9 +8,9 @@ const SectionComponent = ({ className = '', title = '', dataItems = [] }) => {
     return (
         <div className={`${className} `}>
             <h3 className='font-semibold text-xl mb-5'>{title}</h3>
-            <div className='w-full xl:max-w-[calc(100vw-240px)] grid grid-cols-4 gap-x-5 gap-y-6'>
+            <div className='w-full xl:max-w-[calc(100vw-240px)] grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-x-8 xl:gap-x-5 gap-y-6'>
                 {dataItems?.length > 0 && dataItems.map(item => (
-                    <CardItem key={item?.encodeId} className={`w-full h-[330px]`}
+                    <CardItem key={item?.encodeId} className={`w-full h-fit`}
                         item={item}
                     />
                 ))}

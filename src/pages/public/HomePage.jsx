@@ -32,10 +32,10 @@ const HomePage = () => {
                     <SliderComponent />
                     <SectionComponent className='best-of-2024 px-6 md:px-[59px] mb-10' title={'Best of 2024'} dataItems={bestOf2024} />
                     <SectionComponent className='hot-songs px-6 md:px-[59px] mb-10' title={'Nhạc hot hiện hành'} dataItems={hotSongs} />
-                    <ChartComponent className={'chart px-6 md:px-[59px] mb-10'} />
+                    {/* <ChartComponent className={'chart px-6 md:px-[59px] mb-10'} /> */}
                     <div className='w-full px-6 md:px-[59px] grid grid-cols-3 gap-x-4 mb-10'>
                         {banner2?.length > 0 && banner2.map((item, index) => (
-                            <div key={index} className='h-[150px] bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-90'
+                            <div key={index} className='h-12 xs:h-16 sm:h-[80px] lg:h-[130px] bg-cover bg-no-repeat bg-center cursor-pointer transition-transform duration-300 ease-in-out hover:scale-90'
                                 style={{ backgroundImage: `url(${item?.banner})` }}
                                 onClick={() => navigate(item?.link?.replace('.html', ''))}
                             />
