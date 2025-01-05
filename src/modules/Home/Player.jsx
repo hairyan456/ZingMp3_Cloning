@@ -6,6 +6,7 @@ import icons from '../../utils/icons';
 import moment from 'moment';
 import { setCurrentSongRedux, setIsPLayingRedux, setCurrentSongDataRedux } from '../../redux/action';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
+import _ from 'lodash';
 
 const { FaHeart, HiOutlineDotsHorizontal, CiHeart, CiRepeat, MdOutlineSkipNext, MdOutlineSkipPrevious, CiShuffle,
     FaRegPlayCircle, FaRegPauseCircle, LuRepeat1, RiPlayListFill, FaVolumeMute, FaVolumeUp,
@@ -215,21 +216,27 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
     if (!currentSongId) return null;
     return (
         <div className='w-full h-20 md:h-[90px] flex-none flex bg-C0 px-5 animate-slideUp fixed bottom-0'>
-            <div className='basis-2/4 sm:basis-1/4 flex items-center gap-3 lg:gap-6 '>
-                <img src={infoSong?.thumbnail} alt="thumbnail" className='w-10 h-10 md:w-14 md:h-14 object-cover rounded-md' />
-                <div className='flex flex-col text-xs gap-2'>
-                    <span className='font-medium text-gray-700'>
-                        {infoSong?.title?.length > 20 ? infoSong.title.slice(0, 20) + '...' : infoSong.title}
-                    </span>
-                    <span className='text-gray-500'>{infoSong?.artistsNames}</span>
+            {_.isEmpty(infoSong) ?
+                <div className='basis-2/4 sm:basis-1/4 flex items-center justify-center'>
+                    <LoadingComponent />
                 </div>
-                <div className='hidden lg:flex flex-auto justify-around'>
-                    <span className='cursor-pointer' onClick={() => setIsLike(p => !p)}>
-                        {!isLike ? <CiHeart size={16} /> : <FaHeart size={13} />}
-                    </span>
-                    <span><HiOutlineDotsHorizontal size={16} /></span>
+                :
+                <div className='basis-2/4 sm:basis-1/4 flex items-center gap-3 lg:gap-6 '>
+                    <img src={infoSong?.thumbnail} alt="thumbnail" className='w-10 h-10 md:w-14 md:h-14 object-cover rounded-md' />
+                    <div className='flex flex-col text-xs gap-2'>
+                        <span className='font-medium text-gray-700'>
+                            {infoSong?.title?.length > 20 ? infoSong.title.slice(0, 20) + '...' : infoSong.title}
+                        </span>
+                        <span className='text-gray-500'>{infoSong?.artistsNames}</span>
+                    </div>
+                    <div className='hidden lg:flex flex-auto justify-around'>
+                        <span className='cursor-pointer' onClick={() => setIsLike(p => !p)}>
+                            {!isLike ? <CiHeart size={16} /> : <FaHeart size={13} />}
+                        </span>
+                        <span><HiOutlineDotsHorizontal size={16} /></span>
+                    </div>
                 </div>
-            </div>
+            }
             <div className='basis-2/4 flex flex-col items-center justify-center gap-4'>
                 <div className='flex items-center gap-6'>
                     <span title='Bật phát ngẫu nhiên' className={`${isShuffle ? 'text-0F cursor-pointer' : 'ct-icon-music-player'}`}

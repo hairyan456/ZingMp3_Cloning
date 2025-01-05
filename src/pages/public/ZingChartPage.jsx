@@ -6,6 +6,7 @@ import { SongItem } from '../../modules/Home';
 import icons from '../../utils/icons';
 import ChartRank from '../../modules/Chart/ChartRank';
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from '../../components/Loading/LoadingComponent';
 
 const { FaRegPlayCircle } = icons;
 
@@ -101,56 +102,65 @@ const ZingChartPage = ({ chartData = {} }) => {
 
     if (_.isEmpty(chartData)) return null;
     return (
-        <div className='w-full flex flex-col px-[60px] gap-y-8 pb-10' ref={zingChartRef}>
-            <div className='flex gap-2 items-center text-0F'>
-                <h3 className='font-semibold text-xl  cursor-pointer hover:text-opacity-45'>#ZingChart</h3>
-                <span><FaRegPlayCircle size={25} /></span>
-            </div>
-            <div className='w-[98%] h-[300px] relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
-                {data && (
-                    <Line data={data} ref={chartRef} options={options} />
-                )}
+        <>
+            {_.isEmpty(chartData) ?
+                <div className='w-full h-[60vh] flex items-center justify-center'>
+                    <LoadingComponent width={50} height={50} />
+                </div>
+                :
+                <div className='w-full flex flex-col px-[60px] gap-y-8 pb-10' ref={zingChartRef}>
+                    <div className='flex gap-2 items-center text-0F'>
+                        <h3 className='font-semibold text-xl  cursor-pointer hover:text-opacity-45'>#ZingChart</h3>
+                        <span><FaRegPlayCircle size={25} /></span>
+                    </div>
+                    <div className='w-[98%] h-[300px] relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
+                        {data && (
+                            <Line data={data} ref={chartRef} options={options} />
+                        )}
 
-                <div className='tooltip text-white'
-                    style={{
-                        top: tooltipState.top, left: tooltipState.left, position: 'absolute',
-                        opacity: tooltipState.opacity
-                    }}
-                >
-                    <SongItem data={chartData?.RTChart?.items?.find(item => item?.encodeId === tooltipData)}
-                        style={'bg-white text-black rounded-md'}
-                    />
-                </div>
-            </div>
-            <ChartRank data={chartData?.RTChart?.items} />
-            <div className='w-full flex flex-col gap-8'>
-                <h3 className='text-0F font-semibold text-2xl mt-4'>Bảng Xếp Hạng Tuần</h3>
-                <div className='w-full grid grid-cols-3 gap-x-4'>
-                    {chartData?.weekChart && Object.entries(chartData.weekChart)?.map((item) => (
-                        <div className='flex flex-col gap-4 bg-gray-200 rounded-lg px-[10px] py-5 relative' key={item[0]}>
-                            <div className='flex gap-2 text-xl uppercase items-center text-0F justify-center'>
-                                <h3 className='font-semibold '>
-                                    {item[0] === 'vn' ? 'Việt Nam' : item[0] === 'us' ? 'US-UK' : item[0] === 'korea' ? 'Kpop' : ''}
-                                </h3>
-                                <span><FaRegPlayCircle size={20} /></span>
-                            </div>
-                            <ChartRank className='mb-12'
-                                data={item[1]?.items?.filter((item2, index) => index < 5)}
-                                showAlbum={false} hideButton={true}
+                        <div className='tooltip text-white'
+                            style={{
+                                top: tooltipState.top, left: tooltipState.left, position: 'absolute',
+                                opacity: tooltipState.opacity
+                            }}
+                        >
+                            <SongItem data={chartData?.RTChart?.items?.find(item => item?.encodeId === tooltipData)}
+                                style={'bg-white text-black rounded-md'}
                             />
-                            <div className='absolute bottom-4 left-1/2 -translate-x-1/2'>
-                                <button className='px-4 py-2 border text-xs w-fit text-0F border-0F rounded-full 
-                                hover:text-white hover:bg-0F hover:transition-colors'
-                                    onClick={() => navigate(item[1]?.link?.replace('.html', ''))}
-                                >
-                                    Xem tất cả
-                                </button>
-                            </div>
                         </div>
-                    ))}
+                    </div>
+                    <ChartRank data={chartData?.RTChart?.items} />
+                    <div className='w-full flex flex-col gap-8'>
+                        <h3 className='text-0F font-semibold text-2xl mt-4'>Bảng Xếp Hạng Tuần</h3>
+                        <div className='w-full grid grid-cols-3 gap-x-4'>
+                            {chartData?.weekChart && Object.entries(chartData.weekChart)?.map((item) => (
+                                <div className='flex flex-col gap-4 bg-gray-200 rounded-lg px-[10px] py-5 relative' key={item[0]}>
+                                    <div className='flex gap-2 text-xl uppercase items-center text-0F justify-center'>
+                                        <h3 className='font-semibold '>
+                                            {item[0] === 'vn' ? 'Việt Nam' : item[0] === 'us' ? 'US-UK' : item[0] === 'korea' ? 'Kpop' : ''}
+                                        </h3>
+                                        <span><FaRegPlayCircle size={20} /></span>
+                                    </div>
+                                    <ChartRank className='mb-12'
+                                        data={item[1]?.items?.filter((item2, index) => index < 5)}
+                                        showAlbum={false} hideButton={true}
+                                    />
+                                    <div className='absolute bottom-4 left-1/2 -translate-x-1/2'>
+                                        <button className='px-4 py-2 border text-xs w-fit text-0F border-0F rounded-full 
+                        hover:text-white hover:bg-0F hover:transition-colors'
+                                            onClick={() => navigate(item[1]?.link?.replace('.html', ''))}
+                                        >
+                                            Xem tất cả
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+        </>
+
     );
 };
 
