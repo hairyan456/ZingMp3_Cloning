@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import icons from '../../utils/icons';
+import ChartRank from '../../modules/Chart/ChartRank';
 
 const { FaRegPlayCircle } = icons;
 
-const searchMenu = [
-    { path: '/zing-chart-tuan/Bai-hat-Viet-Nam/IWZ9Z08I', text: 'Việt Nam' },
-    { path: '/zing-chart-tuan/Bai-hat-US-UK/IWZ9Z0BW', text: 'US-UK' },
-    { path: 'playlist', text: 'KPOP' },
-];
-
-const WeekRankPage = () => {
+const WeekRankPage = ({ weekChart = [] }) => {
     const { title, pid } = useParams();
+    console.log(weekChart?.find(item => item?.link?.includes(pid)))
 
-    if (!title && !pid) return null;
+    useEffect(() => {
+        document.title = '#zingchart Tuần';
+    }, []);
+
+    if ((!title && !pid) || weekChart?.length <= 0) return null;
     return (
         <div className='w-full px-[60px] flex flex-col gap-y-8 pb-10'>
             <div className='flex gap-2 items-center text-0F'>
@@ -22,17 +22,20 @@ const WeekRankPage = () => {
             </div>
 
             <div className='flex items-center'>
-                {searchMenu?.length > 0 && searchMenu.map(item => (
-                    <NavLink key={item?.path} to={`${item?.path}?q=${''}`}
-                        className={({ isActive }) => `text-xl uppercase px-4
+                {weekChart?.length > 0 && weekChart.map(item => (
+                    <NavLink key={item?.link} to={`${item?.link?.split('.')[0]}`}
+                        className={({ isActive }) => `text-lg uppercase px-4
                             ${isActive ? 'text-0F border-b-2  border-green-900 leading-[52px] font-bold transition-colors ease-in-out duration-400'
                                 : 'text-32 font-medium '}`
                         }
                     >
-                        {item.text}
+                        {item?.country === 'vn' ? 'VIỆT NAM' : item?.country === 'us' ? 'US-UK' : 'KPOP'}
                     </NavLink>
                 ))}
             </div>
+
+            <ChartRank data={weekChart?.find(item => item?.link?.includes(pid))?.items} />
+
         </div>
     );
 };

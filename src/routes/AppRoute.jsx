@@ -1,7 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { path } from '../utils/constant';
+import { getChartHome } from '../services/musicService';
+import { toast } from 'react-toastify';
 
 const PublicPage = lazy(() => import('../pages/public/PublicPage'));
 const HomePage = lazy(() => import('../pages/public/HomePage'));
@@ -42,14 +44,33 @@ const LoadingContainer = styled.div`
 `;
 
 const AppRoute = () => {
+  const [chartData, setChartData] = useState({});
+
+  const fetchChartHome = async () => {
+    try {
+      let res = await getChartHome();
+      if (res?.err === 0) {
+        setChartData(res?.data)
+      }
+      else toast.warn(res?.msg);
+    } catch (error) {
+      console.log(error);
+      toast.error(error?.message);
+    }
+  }
+
+  useEffect(() => {
+    fetchChartHome();
+  }, []);
+
   return (
     <Suspense fallback={<LoadingContainer><div className='spinner' /></LoadingContainer>}>
       <Routes>
         <Route path={path.HOME} element={<PublicPage />}>
           <Route index element={<HomePage />} />
           <Route path={path.PLAYLIST__TITLE__PID} element={<PlaylistPage />} />
-          <Route path={path.WEEKRANK__TITLE__PID} element={<WeekRankPage />} />
-          <Route path={path.ZING_CHART} element={<ZingChartPage />} />
+          <Route path={path.WEEKRANK__TITLE__PID} element={<WeekRankPage weekChart={chartData?.weekChart && Object.values(chartData.weekChart)} />} />
+          <Route path={path.ZING_CHART} element={<ZingChartPage chartData={chartData} />} />
           <Route path={path.HOME__SINGER} element={<SingerPage />} />
           <Route path={path.HOME__ARTIST__SINGER} element={<SingerPage />} />
           <Route path={path.SEACH} element={<SearchPage />} >

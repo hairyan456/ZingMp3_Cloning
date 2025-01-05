@@ -1,20 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { getChartHome } from '../../services/musicService';
-import { toast } from 'react-toastify';
 import { Line } from 'react-chartjs-2';
 import { Chart } from 'chart.js/auto';
 import _ from 'lodash';
 import { SongItem } from '../../modules/Home';
 import icons from '../../utils/icons';
-import { ListSongItem } from '../../modules/Playlist';
 import ChartRank from '../../modules/Chart/ChartRank';
 import { useNavigate } from 'react-router-dom';
 
 const { FaRegPlayCircle } = icons;
 
-const ZingChartPage = () => {
+const ZingChartPage = ({ chartData = {} }) => {
     const navigate = useNavigate();
-    const [chartData, setChartData] = useState([]);
     const [data, setData] = useState(null);
     const [tooltipState, setTooltipState] = useState({
         opacity: 0,
@@ -23,6 +19,7 @@ const ZingChartPage = () => {
     });
     const chartRef = useRef();
     const [tooltipData, setTooltipData] = useState(null)
+    const zingChartRef = useRef(null);
 
     const options = useMemo(() => ({
         responsive: true,
@@ -77,22 +74,10 @@ const ZingChartPage = () => {
         }
     }), [chartData]);
 
-    const fetchChartHome = async () => {
-        try {
-            let res = await getChartHome();
-            if (res?.err === 0) {
-                setChartData(res?.data)
-            }
-            else toast.warn(res?.msg);
-        } catch (error) {
-            console.log(error);
-            toast.error(error?.message);
-        }
-    }
-
     useEffect(() => {
+        if (zingChartRef?.current)
+            zingChartRef.current.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
         document.title = '#zingchart | Xem bài hát, Album hiện hành';
-        fetchChartHome();
     }, []);
 
     useEffect(() => {
@@ -116,7 +101,7 @@ const ZingChartPage = () => {
 
     if (_.isEmpty(chartData)) return null;
     return (
-        <div className='w-full flex flex-col px-[60px] gap-y-8 pb-10'>
+        <div className='w-full flex flex-col px-[60px] gap-y-8 pb-10' ref={zingChartRef}>
             <div className='flex gap-2 items-center text-0F'>
                 <h3 className='font-semibold text-xl  cursor-pointer hover:text-opacity-45'>#ZingChart</h3>
                 <span><FaRegPlayCircle size={25} /></span>
@@ -143,7 +128,7 @@ const ZingChartPage = () => {
                 <div className='w-full grid grid-cols-3 gap-x-4'>
                     {chartData?.weekChart && Object.entries(chartData.weekChart)?.map((item) => (
                         <div className='flex flex-col gap-4 bg-gray-200 rounded-lg px-[10px] py-5 relative' key={item[0]}>
-                            <div className='flex gap-2 text-base items-center text-0F justify-center'>
+                            <div className='flex gap-2 text-xl uppercase items-center text-0F justify-center'>
                                 <h3 className='font-semibold '>
                                     {item[0] === 'vn' ? 'Việt Nam' : item[0] === 'us' ? 'US-UK' : item[0] === 'korea' ? 'Kpop' : ''}
                                 </h3>
