@@ -12,9 +12,9 @@ const Header = () => {
     const { scrollTop } = useSelector(state => state.app);
 
     return (
-        <div className={`h-[70px]  ${singer && scrollTop ?
+        <div className={`h-14 md:h-[70px]  ${singer && scrollTop ?
             'fixed top-0 left-[240px] bg-transparent right-[329px] px-[60px] z-50 flex items-center'
-            : 'px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md mb-5'}`}
+            : 'px-6 xs:px-10 md:px-[59px] flex items-center lg:gap-5 shadow-md mb-2 md:mb-5'}`}
         >
             <div className='basis-4/6 flex gap-5 items-center'>
                 <div className='hidden md:flex text-gray-500 gap-3 basis'>
@@ -30,7 +30,7 @@ const Header = () => {
                 </div>
             </div>
             <div className='basis-2/6 flex justify-end '>
-                <button className='w-fit px-2 py-1 ml-[15px] font-medium xs:ml-0 xs:px-4 xs:py-2 cursor-pointer  
+                <button className='w-fit px-2 py-1 ml-[15px] font-medium xs:ml-0 md:px-4 md:py-2 cursor-pointer  
                 border border-gray-500 outline-none rounded-xl text-gray-600
                 hover:bg-gray-200 hover:transition-all hover:ease-in-out hover:duration-300'>
                     Login

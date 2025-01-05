@@ -27,7 +27,7 @@ const InputSearch = () => {
             <span className={`absolute left-3 ${singer && scrollTop ? 'text-white' : 'text-gray-500'}`}><CiSearch size={21} /></span>
             <input
                 type="text"
-                className={`outline-none px-10 ${singer && scrollTop ? 'bg-[rgba(0,0,0,0.2)] placeholder:text-white text-white' : 'bg-E7'} py-2 rounded-3xl h-10 w-full text-gray-500 hover:border
+                className={`outline-none px-10 ${singer && scrollTop ? 'bg-[rgba(0,0,0,0.2)] placeholder:text-white text-white' : 'bg-E7'} text-xs md:text-sm py-2 rounded-3xl h-6 md:h-10 w-full text-gray-500 hover:border
                 hover:border-blue-500 hover:transition-colors ease-in-out duration-500`}
                 placeholder='Tìm kiếm bài hát, nghệ sĩ, lời bài hát...'
                 value={keyword}

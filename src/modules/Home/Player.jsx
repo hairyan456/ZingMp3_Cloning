@@ -29,10 +29,12 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
     const [isLoadingSong, setIsLoadingSong] = useState(false);
     const [currentSeconds, setCurrentSeconds] = useState(0);
     const [volume, setVolume] = useState(50);
+    const [isHoverVolume, setHoverVolume] = useState(false);
 
     const audio = useRef(new Audio());
     const thumbRef = useRef();
     const trackRef = useRef();
+    const volumeRef = useRef();
 
     const fetchSong = async () => {
         try {
@@ -151,6 +153,10 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
 
     useEffect(() => {
         audio.current.volume = volume / 100;
+
+        if (volumeRef?.current) {
+            volumeRef.current.style.cssText = `right: ${100 - volume}%`;
+        }
     }, [volume]);
 
     // hàm click vào thanh progress bar để chuyển thời lượng phát nhạc
@@ -208,14 +214,16 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
 
     if (!currentSongId) return null;
     return (
-        <div className='w-full h-[90px] flex-none flex bg-C0 px-5 animate-slideUp fixed bottom-0'>
-            <div className='basis-1/4 flex items-center gap-6 '>
-                <img src={infoSong?.thumbnail} alt="thumbnail" className='w-14 h-14 object-cover rounded-md' />
+        <div className='w-full h-20 md:h-[90px] flex-none flex bg-C0 px-5 animate-slideUp fixed bottom-0'>
+            <div className='basis-2/4 sm:basis-1/4 flex items-center gap-3 lg:gap-6 '>
+                <img src={infoSong?.thumbnail} alt="thumbnail" className='w-10 h-10 md:w-14 md:h-14 object-cover rounded-md' />
                 <div className='flex flex-col text-xs gap-2'>
-                    <span className='font-medium text-gray-700'>{infoSong?.title}</span>
+                    <span className='font-medium text-gray-700'>
+                        {infoSong?.title?.length > 20 ? infoSong.title.slice(0, 20) + '...' : infoSong.title}
+                    </span>
                     <span className='text-gray-500'>{infoSong?.artistsNames}</span>
                 </div>
-                <div className='flex flex-auto justify-around'>
+                <div className='hidden lg:flex flex-auto justify-around'>
                     <span className='cursor-pointer' onClick={() => setIsLike(p => !p)}>
                         {!isLike ? <CiHeart size={16} /> : <FaHeart size={13} />}
                     </span>
@@ -258,17 +266,30 @@ const Player = ({ setShowRightSidebar = () => { }, ...props }) => {
                     </span>
                 </div>
             </div>
-            <div className='basis-1/4 flex items-center justify-end gap-3'>
-                <div className='flex gap-2 items-center'>
+            <div className='basis-1/4 hidden sm:flex items-center justify-end gap-3'>
+                <div className='flex gap-2 items-center'
+                    onMouseEnter={() => setHoverVolume(true)}
+                    onMouseLeave={() => setHoverVolume(false)}
+                >
                     <span className='cursor-pointer' onClick={() => setVolume(p => +p === 0 ? 70 : 0)}>
                         {+volume >= 70 ? <FaVolumeUp size={23} /> : +volume >= 40 ? <IoMdVolumeHigh size={23} /> :
                             +volume > 0 ? <FaVolumeDown size={23} /> : <FaVolumeMute size={23} />}
                     </span>
-                    <input type="range" step={1} min={0} max={100} value={volume}
+                    <div className={`w-20 md:w-[130px] h-1 bg-white rounded-l-full rounded-r-full ${isHoverVolume ? 'hidden' : 'relative'}`}>
+                        <div ref={volumeRef} className='absolute left-0 bg-0F bottom-0 top-0 rounded-l-full 
+                            rounded-r-full'/>
+                    </div>
+                    <input type="range"
+                        step={1}
+                        min={0}
+                        max={100}
+                        value={volume}
                         onChange={(e) => setVolume(+e.target.value)}
+                        className={`w-20 md:w-[130px] ${isHoverVolume ? 'inline' : 'hidden'}`}
                     />
                 </div>
-                <span title='Danh sách phát' className='ct-icon-music-player' onClick={() => setShowRightSidebar(p => !p)}>
+                <span title='Danh sách phát' className='hidden sideBarRight:block sideBarRight:ct-icon-music-player'
+                    onClick={() => setShowRightSidebar(p => !p)}>
                     <RiPlayListFill size={25} />
                 </span>
             </div>
