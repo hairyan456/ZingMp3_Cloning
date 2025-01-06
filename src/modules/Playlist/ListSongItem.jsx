@@ -20,7 +20,7 @@ const ListSongItem = ({ songData = {}, showAlbum = true, ...props }) => {
 
     if (_.isEmpty(songData)) return null;
     return (
-        <div className={`flex items-center px-2 py-2 gap-6 hover:bg-E7 hover:rounded-md hover:transition-colors hover:ease-in-out hover:duration-500 
+        <div className={`flex items-center px-2 py-2 gap-4 md:gap-6 hover:bg-E7 hover:rounded-md hover:transition-colors hover:ease-in-out hover:duration-500 
         ${songData?.encodeId === currentSongId ? 'bg-E7 rounded-md' : ''}`}
         >
             <div className={`${!showAlbum ? 'basis-4/5' : 'basis-2/5'} flex items-center gap-2 cursor-pointer`}
@@ -42,16 +42,16 @@ const ListSongItem = ({ songData = {}, showAlbum = true, ...props }) => {
                     <div className='text-xs font-medium'>
                         {songData?.title?.length > 20 ? `${songData.title.slice(0, 19)}...` : songData.title}
                     </div>
-                    <div className='text-xs text-gray-600'>{songData?.artistsNames}</div>
+                    <div className='text-[10px] md:text-xs text-gray-600'>{songData?.artistsNames}</div>
                 </div>
             </div>
             {showAlbum &&
-                <div className='basis-2/5 text-[11px] text-center font-light'>
+                <div className='basis-2/5 text-[10px] md:text-xs text-center font-light'>
                     {songData?.album?.title}
                 </div>
             }
 
-            <div className={`${!showAlbum ? 'basis-1/5 ' : 'basis-1/5 '}flex justify-end text-xs font-light`}>
+            <div className={`${!showAlbum ? 'basis-1/5 ' : 'basis-1/5 '}flex justify-end text-[10px] md:text-xs font-light`}>
                 {songData?.duration && moment.utc(songData?.duration * 1000).format("mm:ss")}
             </div>
         </div>

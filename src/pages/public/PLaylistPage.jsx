@@ -42,8 +42,8 @@ const PLaylistPage = () => {
                     <LoadingComponent width={50} height={50} />
                 </div>
                 :
-                <div className='w-full' ref={playlistRef}>
-                    <div className='w-full flex flex-row px-12 pt-5 gap-5 mb-12'>
+                <div className='w-full px-3 sm:px-6 md:px-12' ref={playlistRef}>
+                    <div className='w-full flex flex-row pt-5 gap-5 mb-12'>
                         <div className='basis-2/6 h-fit flex flex-col text-center items-center gap-3 px-4'>
                             <Thumbnail playlists={playLists} />
                         </div>
@@ -51,15 +51,15 @@ const PLaylistPage = () => {
                         <div className='basis-4/6'>
                             <div className='mb-4'>
                                 <span className='text-gray-600'>Lời tựa:  </span>
-                                <span className='text-[13px] tracking-wide'> {playLists?.sortDescription}</span>
+                                <span className='text-[11px] md:text-[13px] tracking-wide'> {playLists?.sortDescription}</span>
                             </div>
                             <ListSongs />
                         </div>
                     </div>
 
-                    <div className='px-12 mb-10'>
-                        <div className='text-xl font-[600] text-gray-800 mb-4'>Nghệ sĩ tham gia</div>
-                        <div className='w-full grid grid-cols-4 gap-x-5 gap-y-10'>
+                    <div className='mb-10'>
+                        <div className='text-lg md:text-xl font-[600] text-gray-800 mb-4'>Nghệ sĩ tham gia</div>
+                        <div className='w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-x-5 gap-y-10'>
                             {playLists?.artists?.length > 0 && playLists.artists.map(item => (
                                 <Artist key={item?.id} data={item} />
                             ))}

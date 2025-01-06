@@ -18,9 +18,9 @@ const ListSongs = ({ songsData = [] }) => {
     return (
         <div className='w-full flex flex-col'>
             <div className='title flex uppercase p-[10px]'>
-                <div className='basis-2/5 text-xs text-gray-600 font-semibold'>Bài hát</div>
-                <div className='basis-2/5 text-xs text-gray-600 text-center font-semibold'>Album</div>
-                <div className='basis-1/5 text-xs text-right text-gray-600 font-semibold'>Thời gian</div>
+                <div className='basis-2/5 text-[10px] md:text-xs text-gray-600 font-semibold'>Bài hát</div>
+                <div className='basis-2/5 text-[10px] md:text-xs text-gray-600 text-center font-semibold'>Album</div>
+                <div className='basis-1/5 text-[10px] md:text-xs text-right text-gray-600 font-semibold'>Thời gian</div>
             </div>
 
             {songsData?.length > 0 ?

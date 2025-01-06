@@ -15,10 +15,10 @@ const Artist = ({ data = {}, ...props }) => {
     }
 
     return (
-        <div className='h-[330px] flex flex-col items-center gap-4 cursor-pointer'>
-            <Link className='w-full' to={data?.link}>
+        <div className='h-fit flex flex-col items-center gap-4 cursor-pointer'>
+            <Link className='w-[150px] xs:w-[180px] sm:w-[170px] md:w-[140px] lg:w-full flex justify-center' to={data?.link}>
                 <div
-                    className={`h-[200px] w-full max-w-[200px] rounded-full relative bg-cover bg-no-repeat bg-center
+                    className={`h-[150px] xs:h-[180px] sm:h-[170px] md:h-[140px] lg:h-[160px] xl:h-[200px] w-full max-w-[200px] rounded-full relative bg-cover bg-no-repeat bg-center
                 ${isHover ? 'animate-scale-up-image' : 'animate-scale-down-image'}`}
                     style={{ backgroundImage: `url(${data?.thumbnail})` }}
                     onMouseEnter={() => setIsHover(true)}
