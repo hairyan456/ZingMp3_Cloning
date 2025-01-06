@@ -99,7 +99,7 @@ const ChartComponent = ({ className = '' }) => {
                     <h3 className='font-semibold text-xl text-white cursor-pointer hover:text-opacity-45'> #ZingChart</h3>
                     <span className='text-white'><FaRegPlayCircle size={25} /></span>
                 </Link>
-                <div className='flex gap-3'>
+                <div className='flex flex-row sm:gap-3 lg:flex-col lg:gap-12 xl:flex-row xl:gap-3'>
                     <div className='basis-1/3 flex flex-col gap-3'>
                         {rank?.length > 0 && rank.filter((item, index) => index < 3).map((item, index) => (
                             <SongItem key={item?.encodeId} data={item}
@@ -114,7 +114,7 @@ const ChartComponent = ({ className = '' }) => {
                             Xem thêm
                         </Link>
                     </div>
-                    <div className='basis-2/3 w-1/2 relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
+                    <div className='basis-2/3 w-1/2 lg:w-[98%] lg:order-first xl:w-1/2 relative' onMouseLeave={() => setTooltipState(prev => ({ ...prev, opacity: 0 }))}>
                         {data && <Line data={data} ref={chartRef} options={options} />}
                         <div className='tooltip text-white'
                             style={{

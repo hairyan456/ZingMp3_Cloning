@@ -7,7 +7,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import _ from 'lodash'
 
-const SidebarRight = () => {
+const SidebarRight = ({ className = '' }) => {
     const currentSongId = useSelector(state => state.music.currentSongId);
     const isPlaying = useSelector(state => state.music.isPlaying);
     const currentSongData = useSelector(state => state.music.currentSongData);
@@ -20,8 +20,10 @@ const SidebarRight = () => {
             setIsRecent(false);
     }, [isPlaying, currentSongId]);
 
+
     return (
-        <div className='w-[400px] max-w-[300px] animate-slideLeft hidden sideBarRight:flex border border-l-gray-400 sideBarRight:flex-col'>
+        <div className={`w-[250px] flex-none animate-slideLeft border border-l-gray-400 
+        ${className ? className : 'hidden sideBarRight:flex sideBarRight:flex-col'}`}>
             <div className='h-[70px] flex-none py-[14px] px-2 gap-8 flex items-center justify-between'>
                 <div className='text-[10px] text-nowrap  gap-3 flex flex-auto justify-center bg-E7 rounded-l-full rounded-r-full py-[6px] px-[6px] cursor-pointer'>
                     <span className={`py-[5px] flex-1 flex justify-center rounded-l-full rounded-r-full items-center
